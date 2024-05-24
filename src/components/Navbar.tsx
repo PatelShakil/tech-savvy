@@ -6,9 +6,10 @@ import LoadingComponent from "./utils/Loading.tsx";
 import {Link} from "react-router-dom";
 import UserNavComp from "./UserNavComp.tsx";
 import NavItem from "../obj/NavItem.tsx";
+import {animate, motion, useMotionTemplate, useMotionValue} from "framer-motion";
 
 
-
+const COLORS_TOP = ["#13FFAA", "#1E67C6", "#CE84CF", "#DD335C"];
 const Navbar = () => {
 
 
@@ -29,6 +30,16 @@ const Navbar = () => {
     const toggleNavbar = () => {
         setIsMobileDrawerOpen(!isMobileDrawerOpen);
     }
+    const color = useMotionValue(COLORS_TOP[0]);
+    useEffect(() => {
+        animate(color, COLORS_TOP, {
+            ease: "anticipate",
+            duration: 10,
+            repeat: Infinity,
+            repeatType: "mirror",
+        });
+    }, []);
+    const backgroundImage = useMotionTemplate`linear-gradient(30deg,${color},white)`;
 
 
     return (
@@ -36,11 +47,7 @@ const Navbar = () => {
             <div className={'container px-4 mx-auto relative text-sm'}>
                 <div className={'flex justify-between items-center'}>
                     <div className={'flex items-center flex-shrink-0'}>
-                        <img className={'h-10 w-10 mr-2 rounded-3xl'}
-                             src={'https://avatars.githubusercontent.com/u/100054724?v=4'} alt={"logo"}/>
-                        <span className={'text-xl tracking-tight'}>
-                            Shakil IT Solution
-                        </span>
+                        <motion.span className={"text-2xl lg:text-3xl font-bold bg-clip-text text-transparent"} style={{backgroundImage}}>Tech-Savvy</motion.span>
                     </div>
                     <ul className={'hidden lg:flex ml-14 space-x-12'}>
                         {

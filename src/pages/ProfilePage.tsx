@@ -22,7 +22,7 @@ const ProfilePage = (props: { isLogin: boolean | null; }) => {
             repeat: Infinity,
             repeatType: "mirror",
         });
-    }, );
+    },[] );
     const gradient = `linear-gradient(to right, ${COLORS_TOP.join(', ')})`;
 
     const [user, setUser] = useState<User | null>(null)
