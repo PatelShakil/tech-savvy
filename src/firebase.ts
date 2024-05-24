@@ -10,6 +10,7 @@ import {getAuth} from "firebase/auth";
 const firebaseConfig = {
     apiKey: "AIzaSyDNgDnFui-A8km1-54yVHewwR1ABMf_xX8",
     authDomain: "tech-savvy-solution.firebaseapp.com",
+    databaseURL: "https://tech-savvy-solution-default-rtdb.firebaseio.com",
     projectId: "tech-savvy-solution",
     storageBucket: "tech-savvy-solution.appspot.com",
     messagingSenderId: "156050581844",
