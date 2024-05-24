@@ -1,0 +1,100 @@
+{
+  "navList" :[
+    {
+      "name": "Services",
+      "path": "/services"
+    },
+    {
+      "name": "Projects",
+      "path": "/projects"
+    },
+    {
+      "name": "Skills",
+      "path": "/skills"
+    },
+    {
+      "name": "Testimonials",
+      "path": "/testimonials"
+    }
+  ],
+  "projects":[
+    {
+      "id": "1",
+      "name": "Gi1 Prime App",
+      "shortDesc": "A comprehensive application for Gi1 Super App company.",
+      "platform": "Android",
+      "technology": "Java, Kotlin",
+      "image": "url_to_image",
+      "fullDetail": "Features include a coins mining system, leaderboard, dynamic quizzes and forms with feedback, multipurpose notification system, user privacy encryption, industry-specific discussions with replies and likes, and a fully dynamic architecture.",
+      "playStoreLink": "https://play.google.com/store/apps/details?id=com.gi1prime"
+    },
+    {
+      "id": "2",
+      "name": "SmugLinks",
+      "shortDesc": "An integrated Android and web platform for creating and managing links with QR codes.",
+      "platform": "Android, Web",
+      "technology": "React, Java",
+      "image": "url_to_image",
+      "fullDetail": "Allows users to create redirect links and generate customized QR codes with 400+ design options. Premium members have unlimited link creation and advanced QR code customization. Ideal for business persons and shopkeepers. Available on Google Play Store and the web.",
+      "playStoreLink": "https://play.google.com/store/apps/details?id=com.smuglinks",
+      "websiteLink": "https://smuglinks.com"
+    },
+    {
+      "id": "3",
+      "name": "ByteBuddy",
+      "shortDesc": "A comprehensive resource for BCA and Computer Science students.",
+      "platform": "Android",
+      "technology": "Java, Kotlin",
+      "image": "url_to_image",
+      "fullDetail": "Includes a vast collection of verified notes, multi-language translations, offline listening, user-uploaded notes, and a community Q&A section with upvote and downvote features."
+    },
+    {
+      "id": "4",
+      "name": "IBC E-LEARNING",
+      "shortDesc": "Modern e-learning platform with high-quality layouts and features.",
+      "platform": "Web",
+      "technology": "React, Firebase",
+      "image": "url_to_image",
+      "fullDetail": "Offers personal chatting with classmates and faculty, regular notes, and circular updates.",
+      "repoLink": "https://github.com/PatelShakil/IBC_E-Learning/releases/tag/3.0.1"
+    },
+    {
+      "id": "5",
+      "name": "Social",
+      "shortDesc": "A futuristic social media platform with AI integration.",
+      "platform": "Android",
+      "technology": "Java, Kotlin",
+      "image": "url_to_image",
+      "fullDetail": "Features AI interaction, friend connections, meme and post sharing. Small app size under 20 MB.",
+      "repoLink": "https://github.com/Bc-Group/Social"
+    },
+    {
+      "id": "6",
+      "name": "Swipe Player",
+      "shortDesc": "Offline video player with machine learning-based management.",
+      "platform": "Android",
+      "technology": "Java, Kotlin",
+      "image": "url_to_image",
+      "fullDetail": "Automatically plays or pauses video based on eye detection. Small app size of 3-4 MB."
+    },
+    {
+      "id": "7",
+      "name": "Heavens Gate",
+      "shortDesc": "Connects people to NGOs and Islamic organizations.",
+      "platform": "Android",
+      "technology": "Java, Kotlin",
+      "image": "url_to_image",
+      "fullDetail": "Features user types for organization managers and donors, with a payment gateway for donations."
+    },
+    {
+      "id": "8",
+      "name": "Billing App",
+      "shortDesc": "Helps shopkeepers manage customer records and daily reports.",
+      "platform": "Android",
+      "technology": "Java, Kotlin",
+      "image": "url_to_image",
+      "fullDetail": "Generates customer receipts in PDF format, works offline, supports data backup and restore, generates Excel files, and syncs contacts for promotional sharing via WhatsApp."
+    }
+  ]
+
+}
