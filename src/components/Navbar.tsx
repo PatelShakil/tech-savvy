@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {Menu, X} from "lucide-react";
 import {ref, onValue} from "firebase/database";
 import {auth, database} from "../firebase.ts";
@@ -39,6 +39,39 @@ const Navbar = () => {
             repeatType: "mirror",
         });
     }, []);
+    const logoRef = useRef(null);
+    const [scrollSpeed, setScrollSpeed] = useState(1);
+
+    useEffect(() => {
+        let lastScrollY = window.scrollY;
+        let rotation = 0;
+
+        const handleScroll = () => {
+            const newScrollY = window.scrollY;
+            const deltaY = newScrollY - lastScrollY;
+            lastScrollY = newScrollY;
+            const speed = 1 + Math.abs(deltaY) /25; // Adjust the divisor for sensitivity
+            setScrollSpeed(speed);
+        };
+
+        const animate = () => {
+            rotation += scrollSpeed;
+            if (logoRef.current) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                logoRef.current.style.transform = `rotate(${rotation}deg)`;
+            }
+            requestAnimationFrame(animate);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        requestAnimationFrame(animate);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [scrollSpeed]);
+
     const backgroundImage = useMotionTemplate`linear-gradient(30deg,${color},white)`;
 
 
@@ -47,6 +80,12 @@ const Navbar = () => {
             <div className={'container px-4 mx-auto relative text-sm'}>
                 <div className={'flex justify-between items-center'}>
                     <div className={'flex items-center flex-shrink-0'}>
+                        <motion.img src={'/assets/logo.svg'} alt={"Logo"} className={'h-12 mr-2 rounded-full'} ref={logoRef}
+                                    style={{
+                                        // backgroundImage,
+                                        // color:"black",
+                                        // backgroundColor:'black'
+                                    }}                        />
                         <motion.span className={"text-2xl lg:text-3xl font-bold bg-clip-text text-transparent"} style={{backgroundImage}}>Tech-Savvy</motion.span>
                     </div>
                     <ul className={'hidden lg:flex ml-14 space-x-12'}>

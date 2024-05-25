@@ -2,7 +2,7 @@ import {animate, useMotionTemplate, useMotionValue, motion} from "framer-motion"
 import {useEffect, useState} from "react";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
-import login from '../assets/login.svg';
+import login from '../../public/assets/login.svg';
 import {Link, useNavigate} from "react-router-dom";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import {auth} from "../firebase.ts";
