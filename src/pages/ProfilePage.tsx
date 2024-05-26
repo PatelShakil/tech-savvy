@@ -12,6 +12,7 @@ import {FiArrowRight} from "react-icons/fi";
 import {ProjectData} from "../obj/ProjectData.tsx";
 import ProjectDataItem from "../components/utils/ProjectDataItem.tsx";
 import {PlusCircle} from "lucide-react";
+import {RotatingLogo} from "../components/utils/RotatingLogo.tsx";
 
 const ProfilePage = () => {
     const COLORS_TOP = ["#13FFAA", "#1E67C6", "#CE84CF", "#DD335C"];
@@ -70,6 +71,7 @@ const ProfilePage = () => {
             {user ? (
                 isVerified ? (
                     <div className="container mx-auto py-8">
+
                         <div className="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4 mt-6">
                             <div className="col-span-4 sm:col-span-3">
                                 <div className="shadow rounded-lg p-6 sticky top-12">
@@ -136,6 +138,10 @@ const ProfilePage = () => {
             ) : (
                 user == null ?
                     <div className="flex flex-col h-screen items-center justify-center">
+                        <div className={"mb-5"}>
+                            <RotatingLogo />
+
+                        </div>
                         <h1>Please Verify your Email</h1>
                         <Link to={'/login'}>Go To Login</Link>
                     </div>
