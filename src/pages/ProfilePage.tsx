@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, useCallback} from "react";
 import {auth, database} from "../firebase.ts";
 import {Link, useNavigate} from "react-router-dom";
 import {onValue, ref} from "firebase/database";
@@ -11,12 +11,16 @@ import {animate, motion, useMotionTemplate, useMotionValue} from "framer-motion"
 import {FiArrowRight} from "react-icons/fi";
 import {ProjectData} from "../obj/ProjectData.tsx";
 import ProjectDataItem from "../components/utils/ProjectDataItem.tsx";
+import {PlusCircle} from "lucide-react";
 
 const ProfilePage = () => {
     const COLORS_TOP = ["#13FFAA", "#1E67C6", "#CE84CF", "#DD335C"];
+    const gradient = `linear-gradient(to right, ${COLORS_TOP.join(', ')})`;
     const color = useMotionValue(COLORS_TOP[0]);
     const navigate = useNavigate();
     const [projects, setProjects] = useState<ProjectData[]>([]);
+    const [user, setUser] = useState<User | null>(null);
+    const [isVerified, setIsVerified] = useState(false);
 
     useEffect(() => {
         animate(color, COLORS_TOP, {
@@ -25,29 +29,37 @@ const ProfilePage = () => {
             repeat: Infinity,
             repeatType: "mirror",
         });
-    },[] );
+    }, [color]);
 
-    const gradient = `linear-gradient(to right, ${COLORS_TOP.join(', ')})`;
-
-    const [user, setUser] = useState<User | null>(null);
-    const [isVerified, setIsVerified] = useState(false);
+    const fetchProjects = useCallback((uid: string) => {
+        const dataRef = ref(database, "users/" + uid + "/projects");
+        onValue(dataRef, (snapshot) => {
+            const list: ProjectData[] = [];
+            snapshot.forEach((ch) => {
+                list.push(ch.val());
+            });
+            setProjects(list);
+        });
+    }, []);
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
-            const dataRef = ref(database, "users/" + user?.uid);
-            onValue(dataRef, (snapshot) => {
-                const data = snapshot.val() as User;
-                setUser(data);
-                const list: ProjectData[] = [];
-                snapshot.child("projects").forEach((ch) => {
-                    list.push(ch.val());
-                });
-                setProjects(list);
-                setIsVerified(user!.emailVerified!);
-            });
+            if (user) {
+                setIsVerified(user.emailVerified);
+                if (user.emailVerified) {
+                    const userRef = ref(database, "users/" + user.uid);
+                    onValue(userRef, (snapshot) => {
+                        setUser(snapshot.val());
+                    });
+                    fetchProjects(user.uid);
+                }
+            } else {
+                setUser(null);
+                setProjects([]);
+            }
         });
         return () => unsubscribe();
-    }, [user]);
+    }, [fetchProjects]);
 
     const border = useMotionTemplate`1px solid ${color}`;
     const boxShadow = useMotionTemplate`0px 4px 24px ${color}`;
@@ -55,11 +67,10 @@ const ProfilePage = () => {
     return (
         <div>
             <Navbar/>
-            {user != null ? (
+            {user ? (
                 isVerified ? (
                     <div className="container mx-auto py-8">
                         <div className="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4 mt-6">
-                            {/* profile box */}
                             <div className="col-span-4 sm:col-span-3">
                                 <div className="shadow rounded-lg p-6 sticky top-12">
                                     <div className="flex flex-col items-center">
@@ -73,10 +84,9 @@ const ProfilePage = () => {
                                             </Link>
                                             <button
                                                 onClick={handleLogout}
-                                                className={'flex flex-row drop-shadow-lg bg-gradient-to-r from-red-700 to-black px-4 py-2 rounded-xl hover:bg-black'}>
-                                                <span className={'text-sm'}>
-                                                    Logout
-                                                </span>
+                                                className="flex flex-row drop-shadow-lg bg-gradient-to-r from-red-700 to-black px-4 py-2 rounded-xl hover:bg-black"
+                                            >
+                                                <span className="text-sm">Logout</span>
                                             </button>
                                         </div>
                                     </div>
@@ -84,10 +94,17 @@ const ProfilePage = () => {
                                 </div>
                             </div>
                             <div className="col-span-4 sm:col-span-9">
-                                <h1 className="text-xl lg:text-4xl bg-clip-text text-transparent lg:mt-2 p-4"
-                                    style={{backgroundImage: gradient}}>
-                                    Your Projects {user.projects?.length}
-                                </h1>
+                                <div className={"flex flex-row items-center gap-1"}>
+                                    <h1
+                                        className="text-xl lg:text-4xl bg-clip-text text-transparent lg:mt-2 p-4"
+                                        style={{backgroundImage: gradient}}
+                                    >
+                                        Your Projects ({projects.length})
+                                    </h1>
+                                    <Link to={'/requestproject'}>
+                                        <PlusCircle className={"size-8 lg:mt-3"}/>
+                                    </Link>
+                                </div>
                                 {projects.length > 0 ? (
                                     <div className="sm:w-full p-5 flex flex-row flex-wrap gap-5">
                                         {projects.map((pr, index) => (
@@ -97,19 +114,10 @@ const ProfilePage = () => {
                                 ) : null}
                                 <div className="flex items-center justify-center pt-20">
                                     <motion.button
-                                        style={{
-                                            border,
-                                            boxShadow,
-                                        }}
-                                        whileHover={{
-                                            scale: 1.015,
-                                        }}
-                                        whileTap={{
-                                            scale: 0.985,
-                                        }}
-                                        onClick={() => {
-                                            navigate('/requestproject')
-                                        }}
+                                        style={{border, boxShadow}}
+                                        whileHover={{scale: 1.015}}
+                                        whileTap={{scale: 0.985}}
+                                        onClick={() => navigate('/requestproject')}
                                         className="group relative flex w-fit items-center gap-1.5 rounded-full bg-gray-950/10 px-4 py-2 text-gray-50 transition-colors hover:bg-gray-950/50"
                                     >
                                         Request Project
@@ -126,9 +134,15 @@ const ProfilePage = () => {
                     </div>
                 )
             ) : (
-                <div className="flex flex-col h-screen items-center justify-center">
-                    <LoadingComponent/>
-                </div>
+                user == null ?
+                    <div className="flex flex-col h-screen items-center justify-center">
+                        <h1>Please Verify your Email</h1>
+                        <Link to={'/login'}>Go To Login</Link>
+                    </div>
+                    : <div className="flex flex-col h-screen items-center justify-center">
+                        <LoadingComponent/>
+                    </div>
+
             )}
         </div>
     );
