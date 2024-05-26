@@ -85,6 +85,7 @@ const Navbar = () => {
                                         // backgroundImage,
                                         // color:"black",
                                         // backgroundColor:'black'
+                                        color
                                     }}                        />
                         <motion.span className={"text-2xl lg:text-3xl font-bold bg-clip-text text-transparent"} style={{backgroundImage}}>Tech-Savvy</motion.span>
                     </div>
