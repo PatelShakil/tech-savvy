@@ -148,7 +148,7 @@ const RequestProjectPage = (props: { isLogin: boolean | null, user: User | null;
                                     style={{backgroundImage}}
                         >
                             <motion.div
-                                className="flex rounded-lg shadow-lg border overflow-hidden max-w-full lg:pl-24 lg:pr-24 w-full items-center bg-black"
+                                className="flex rounded-lg shadow-lg border overflow-hidden max-w-full w-full items-center bg-black"
                                 style={{boxShadow, border}}
                             >
                                 <div className="w-full p-8">

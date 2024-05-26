@@ -48,10 +48,10 @@ const Navbar = () => {
         <nav className={'fixed z-50 w-full py-2 backdrop-blur-lg border-b-neutral-700 shadow-green-400'}>
             <div className={'container px-4 mx-auto relative text-sm'}>
                 <div className={'flex justify-between items-center'}>
-                    <div className={'flex items-center flex-shrink-0'}>
+                    <Link to={"/"} className={'flex items-center flex-shrink-0'}>
                         <RotatingLogo />
                         <motion.span className={"text-2xl lg:text-3xl font-bold bg-clip-text text-transparent"} style={{backgroundImage}}>Tech-Savvy</motion.span>
-                    </div>
+                    </Link>
                     <ul className={'hidden lg:flex ml-14 space-x-12'}>
                         {
                             navListData.length != 0 ?
