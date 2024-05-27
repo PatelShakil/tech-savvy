@@ -33,6 +33,23 @@ const ProjectsSection = () =>{
             style={{backgroundImage:gradient,
                 position: 'relative', // Ensures it moves without affecting other elements
             }}
+                       initial={{
+                           scale:0.5,
+                           rotate:"0deg",
+                           x:0,
+                       }}
+
+                       transition={{
+                           duration:1,
+                           ease:'easeIn',
+                       }}
+                       whileInView={{
+                           rotate:"0deg",
+                           scale:1,
+                           x:[0,-150,150,0],
+                       }}
+                       viewport={{ once: false, amount: 0.5 }}
+
             >
                 Portfolio Projects
             </motion.h1>
