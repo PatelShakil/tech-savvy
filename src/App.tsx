@@ -1,5 +1,5 @@
 import './index.css';
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes, useLocation} from 'react-router-dom';
 import HomePage from "./pages/HomePage.tsx";
 import SignupPage from "./pages/SignupPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
@@ -9,6 +9,11 @@ import {auth, database} from "./firebase.ts";
 import RequestProjectPage from "./pages/RequestProjectPage.tsx";
 import User from "./obj/User.tsx";
 import {onValue, ref} from "firebase/database";
+import Footer from "./components/Footer.tsx";
+import ContactUsPage from "./pages/ContactUsPage.tsx";
+import Navbar from "./components/Navbar.tsx";
+import NotFoundPage from "./components/NotFoundPage.tsx";
+import ProjectsPage from "./pages/ProjectsPage.tsx";
 
 
 function App() {
@@ -29,17 +34,39 @@ function App() {
         return () => unsubscribe();
     }, []);
 
+
   return (
     <Router>
-        <Routes>
+        <div className={"flex flex-col"}>
+        <Navbar/>
+        <Routes >
             <Route path={"/"} element={<HomePage/>}/>
             <Route path={"/signup"} element={<SignupPage/>}/>
             <Route path={"/login"} element={<LoginPage/>}/>
             <Route path={"/profile"} element={<ProfilePage/>}/>
             <Route path={"/requestproject"} element={<RequestProjectPage isLogin={isLogin} user={user} />}/>
+            <Route path={"/contactus"} element={<ContactUsPage />}/>
+            <Route path={"/projects"} element={<ProjectsPage/>}/>
+            <Route path="*" element={<NotFoundPage />} />
+
         </Routes>
+        <ConditionalFooter />
+        </div>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;
+
+const ConditionalFooter= () => {
+    const location = useLocation();
+
+    // List of paths where the footer should be hidden
+    const hiddenFooterPaths = [ '/profile'];
+
+    // Check if the current path is one of the hidden paths
+    const isFooterPageVisible = !hiddenFooterPaths.includes(location.pathname);
+
+    // Conditionally render the footer
+    return isFooterPageVisible ? <Footer /> : null;
+};

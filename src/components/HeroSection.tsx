@@ -5,7 +5,7 @@ import {
     useMotionTemplate,
     useMotionValue,
     motion,
-    animate,
+    animate
 } from "framer-motion";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
@@ -20,6 +20,7 @@ const HeroSection = () => {
     const [isLogin, setIsLogin] = useState(
         false
     );
+
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setIsLogin(!!user);
@@ -47,6 +48,7 @@ const HeroSection = () => {
             }}
             className="relative grid min-h-screen place-content-center overflow-hidden bg-gray-950 px-4 py-24 text-gray-200"
         >
+
             <div className="relative z-10 flex flex-col items-center">
         <span className="mb-1.5 inline-block rounded-full bg-gray-600/50 px-3 py-1.5 text-sm">
           50% off on first Project

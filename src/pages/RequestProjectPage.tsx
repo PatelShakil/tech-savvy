@@ -8,7 +8,6 @@ import {Tooltip} from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css'
 
 import {Info} from "lucide-react";
-import Navbar from "../components/Navbar.tsx";
 import {useNavigate} from "react-router-dom";
 
 const RequestProjectPage = (props: { isLogin: boolean | null, user: User | null; }) => {
@@ -139,8 +138,7 @@ const RequestProjectPage = (props: { isLogin: boolean | null, user: User | null;
     const border = useMotionTemplate`1px solid ${color}`;
     const boxShadow = useMotionTemplate`0px 4px 24px ${color}`;
     return (
-        <div className={"flex flex-col h-screen"}>
-            <Navbar/>
+        <div className={"flex flex-col"}>
             {
                 isLogin != null && user != null ?
                     isLogin ?
@@ -338,6 +336,13 @@ const RequestProjectPage = (props: { isLogin: boolean | null, user: User | null;
                                                            onClick={handleSubmit}
                                                            className={"text-black backdrop-blur-3xl shadow-lg font-bold py-2 px-4 w-full rounded hover:bg-black"}
                                                            style={{backgroundImage: buttonBg}}
+                                                           whileHover={{
+                                                               scale:1.05,
+                                                           }}
+                                                           whileTap={{
+                                                               scale:.95,
+                                                               rotate:"1.5deg"
+                                                           }}
                                             >
                                                 Submit
                                             </motion.button>

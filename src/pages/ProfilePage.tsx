@@ -5,7 +5,6 @@ import {onValue, ref} from "firebase/database";
 import User from "../obj/User.tsx";
 import ProfileImage from "../components/utils/ProfileImage.tsx";
 import LoadingComponent from "../components/utils/Loading.tsx";
-import Navbar from "../components/Navbar.tsx";
 import {handleLogout} from "../components/UserNavComp.tsx";
 import {animate, motion, useMotionTemplate, useMotionValue} from "framer-motion";
 import {FiArrowRight} from "react-icons/fi";
@@ -67,7 +66,6 @@ const ProfilePage = () => {
 
     return (
         <div>
-            <Navbar/>
             {user ? (
                 isVerified ? (
                     <div className="container mx-auto py-8">

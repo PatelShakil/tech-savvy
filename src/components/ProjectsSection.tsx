@@ -34,7 +34,7 @@ const ProjectsSection = () =>{
                 position: 'relative', // Ensures it moves without affecting other elements
             }}
                        initial={{
-                           scale:0.5,
+                           scale:0.2,
                            rotate:"0deg",
                            x:0,
                        }}
@@ -51,7 +51,7 @@ const ProjectsSection = () =>{
                        viewport={{ once: false, amount: 0.5 }}
 
             >
-                Portfolio Projects
+                Our Projects
             </motion.h1>
             {
                 data.length != 0 ?
