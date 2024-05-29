@@ -14,6 +14,8 @@ import ContactUsPage from "./pages/ContactUsPage.tsx";
 import Navbar from "./components/Navbar.tsx";
 import NotFoundPage from "./components/NotFoundPage.tsx";
 import ProjectsPage from "./pages/ProjectsPage.tsx";
+import ServicesPage from "./pages/ServicesPage.tsx";
+import AboutUsPage from "./pages/AboutUsPage.tsx";
 
 
 function App() {
@@ -37,7 +39,7 @@ function App() {
 
   return (
     <Router>
-        <div className={"flex flex-col"}>
+        <div className={"flex flex-col p-0 m-auto"}>
         <Navbar/>
         <Routes >
             <Route path={"/"} element={<HomePage/>}/>
@@ -47,8 +49,9 @@ function App() {
             <Route path={"/requestproject"} element={<RequestProjectPage isLogin={isLogin} user={user} />}/>
             <Route path={"/contactus"} element={<ContactUsPage />}/>
             <Route path={"/projects"} element={<ProjectsPage/>}/>
+            <Route path={"/services"} element={<ServicesPage />} />
+            <Route path={"/aboutus"} element={<AboutUsPage />} />
             <Route path="*" element={<NotFoundPage />} />
-
         </Routes>
         <ConditionalFooter />
         </div>

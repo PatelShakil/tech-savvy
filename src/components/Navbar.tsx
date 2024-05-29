@@ -6,7 +6,7 @@ import LoadingComponent from "./utils/Loading.tsx";
 import {Link} from "react-router-dom";
 import UserNavComp from "./UserNavComp.tsx";
 import NavItem from "../obj/NavItem.tsx";
-import {animate, motion, useMotionTemplate, useMotionValue, useScroll, useSpring} from "framer-motion";
+import {animate, motion, useMotionTemplate, useMotionValue, useScroll} from "framer-motion";
 import {RotatingLogo} from "./utils/RotatingLogo.tsx";
 
 
@@ -27,7 +27,6 @@ const Navbar = () => {
         });
     },[]);
     const {scrollYProgress} = useScroll();
-    const scaleX = useSpring(scrollYProgress);
     const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
     const toggleNavbar = () => {
         setIsMobileDrawerOpen(!isMobileDrawerOpen);
@@ -47,8 +46,8 @@ const Navbar = () => {
 
     return (
         <nav className={'fixed z-50 w-full pt-1 backdrop-blur-lg border-b-neutral-700 shadow-green-400'}>
-            <div className={'container px-4 mx-auto relative text-sm'}>
-                <div className={'flex justify-between items-center'}>
+            <div className={''}>
+                <div className={'flex justify-between items-center text-sm px-2'}>
                     <Link to={"/"} className={'flex items-center flex-shrink-0'}>
                         <RotatingLogo/>
                         <motion.span className={"text-2xl lg:text-3xl font-bold bg-clip-text text-transparent"}
@@ -127,7 +126,7 @@ const Navbar = () => {
             </div>
             <motion.div className={"w-full h-1 mt-1"}
                  style={{
-                     scaleX: scaleX,
+                     scaleX: scrollYProgress,
                      backgroundImage:backgroundImage,
                      transformOrigin:'left'
                  }}
