@@ -2,9 +2,9 @@ import {useState} from "react";
 import ContactForm from "../obj/ContactsForm.tsx";
 import {database} from "../firebase.ts";
 import {ref, set} from "firebase/database";
+import {services} from "../components/utils/Constants.tsx";
 
 const ContactUsPage = () =>{
-    const services = ["Web Development", "Android Development", "College Projects", "Mobile Development", "API Development","Backend Development"];
 
     const [selectedServices, setSelectedServices] = useState<string[]>([]);
     const [name, setName] = useState('');
@@ -138,14 +138,14 @@ const ContactUsPage = () =>{
                         <div className="flex flex-wrap gap-4 mb-4">
                             {services.map(service => (
                                 <button
-                                    key={service}
+                                    key={service.id}
                                     type="button"
-                                    onClick={() => handleServiceClick(service)}
+                                    onClick={() => handleServiceClick(service.name)}
                                     className={`px-4 py-2 rounded-md text-sm tracking-wider font-medium outline-none border-2 mr-4 ${
-                                        selectedServices.includes(service) ? 'bg-[#a91079] border-[#a91079]' : 'bg-gray-200 border-gray-200 '
+                                        selectedServices.includes(service.name) ? 'bg-[#a91079] border-[#a91079]' : 'bg-gray-200 border-gray-200 '
                                     }`}
                                 >
-                                    <span className={`border-[#a91079] text-bold ${selectedServices.includes(service) ? "text-white" : "text-black"}`}>{service}</span>
+                                    <span className={`border-[#a91079] text-bold ${selectedServices.includes(service.name) ? "text-white" : "text-black"}`}>{service.name}</span>
                                 </button>
                             ))}
                         </div>

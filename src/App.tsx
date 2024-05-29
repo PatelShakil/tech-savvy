@@ -16,6 +16,7 @@ import NotFoundPage from "./components/NotFoundPage.tsx";
 import ProjectsPage from "./pages/ProjectsPage.tsx";
 import ServicesPage from "./pages/ServicesPage.tsx";
 import AboutUsPage from "./pages/AboutUsPage.tsx";
+import ClassesPage from "./pages/ClassesPage.tsx";
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
             <Route path={"/projects"} element={<ProjectsPage/>}/>
             <Route path={"/services"} element={<ServicesPage />} />
             <Route path={"/aboutus"} element={<AboutUsPage />} />
+            <Route path={"/classes"} element={<ClassesPage />} />
             <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <ConditionalFooter />

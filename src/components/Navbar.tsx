@@ -1,9 +1,8 @@
 import {useEffect, useState} from "react";
 import {Menu, X} from "lucide-react";
-import {ref, onValue} from "firebase/database";
-import {auth, database} from "../firebase.ts";
+import {auth} from "../firebase.ts";
 import LoadingComponent from "./utils/Loading.tsx";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import UserNavComp from "./UserNavComp.tsx";
 import NavItem from "../obj/NavItem.tsx";
 import {animate, motion, useMotionTemplate, useMotionValue, useScroll} from "framer-motion";
@@ -14,18 +13,30 @@ const COLORS_TOP = ["#13FFAA", "#1E67C6", "#CE84CF", "#DD335C"];
 const Navbar = () => {
 
 
-    const [navListData, setNavListData] = useState<NavItem[]>([]);
+    const navListData : NavItem[] = [
+        {
+          "name":"Classes",
+          "path":"/classes"
+        },
+        {
+            "name": "Services",
+            "path": "/services"
+        },
+        {
+            "name": "Projects",
+            "path": "/projects"
+        },
+        {
+            "name":"About Us",
+            "path":"/aboutus"
+        },
+        {
+            "name":"Contact Us",
+            "path":"/contactus"
+        }
+    ];
+    const location = useLocation();
 
-    useEffect(() => {
-
-        const dataRef = ref(database, "navList");
-
-        onValue(dataRef, (snapshot) => {
-
-            const data = snapshot.val();
-            setNavListData(data);
-        });
-    },[]);
     const {scrollYProgress} = useScroll();
     const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
     const toggleNavbar = () => {
@@ -43,7 +54,6 @@ const Navbar = () => {
 
     const backgroundImage = useMotionTemplate`linear-gradient(30deg,${color},white)`;
 
-
     return (
         <nav className={'fixed z-50 w-full pt-1 backdrop-blur-lg border-b-neutral-700 shadow-green-400'}>
             <div className={''}>
@@ -54,11 +64,16 @@ const Navbar = () => {
                                      style={{backgroundImage}}>Tech Savvy
                         </motion.span>
                     </Link>
-                    <ul className={'hidden lg:flex ml-14 space-x-12'}>
+                    <ul
+                        className={'hidden lg:flex space-x-8'}>
                         {
                             navListData.length != 0 ?
                                 navListData.map((item, i) => <li key={i}>
-                                        <Link to={item.path}>{item.name}</Link>
+                                    {
+                                        <Link reloadDocument={true} className={"text-gray-400 text-sm hover:text-white font-bold " +
+                                            `${location.pathname === item.path && "text-white underline rounded-xl"}`} to={item.path}>{item.name}
+                                        </Link>
+                                    }
                                     </li>
                                 )
                                 :
@@ -94,15 +109,17 @@ const Navbar = () => {
                         <div
                             className={'fixed right-0 mt-2 z-20 bg-neutral-900 w-full pb-12 flex flex-col justify-center items-center lg:hidden'}>
 
-                            <ul className={'text-center'}>
+                            <ul className={'text-center space-y-5 mb-5'}>
                                 {
                                     navListData.length != 0 ?
-                                        navListData.map((item, i) => <li key={i} className={'py-4'}>
-                                                <a href={item.path.toString()}>{item.name.toString()}</a>
+                                        navListData.map((item, i) =>
+                                            <li>
+                                            <Link key={i} reloadDocument={true} className={"text-gray-400 text-sm hover:text-white font-bold " +
+                                                `${location.pathname === item.path && "text-white underline rounded-xl"}`} to={item.path}>{item.name}
+                                            </Link>
                                             </li>
                                         ) : <LoadingComponent/>
                                 }
-
                             </ul>
                             {
                                 auth.currentUser != null ?
@@ -138,4 +155,3 @@ const Navbar = () => {
 }
 
 export default Navbar
-
