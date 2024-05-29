@@ -1,7 +1,7 @@
 const AboutUsPage = () =>{
     return(
-        <div className={"h-screen items-center justify-center my-12"}>
-            <h1 className={"text-8xl"}>About Us</h1>
+        <div className={"flex flex-col items-center justify-center min-h-screen"}>
+            <h1 className={"text-4xl font-bold text-center"}>About Us</h1>
         </div>
         )
     ;

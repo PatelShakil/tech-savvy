@@ -19,11 +19,11 @@ const Footer = () =>{
                         <div className="flex mt-24 mb-12 flex-row justify-between items-center">
                             <h1 className={"text-2xl lg:text-3xl font-bold text-white"}>Tech Savvy
                             </h1>
-                            <a className="hidden md:block cursor-pointer text-gray-600 hover:text-white uppercase">About</a>
-                            <a className="hidden md:block cursor-pointer text-gray-600 hover:text-white uppercase">Services</a>
+                            <a href={"/aboutus"} className="hidden md:block cursor-pointer text-gray-600 hover:text-white uppercase">About</a>
+                            <a href={"/services"} className="hidden md:block cursor-pointer text-gray-600 hover:text-white uppercase">Services</a>
                             <a className="hidden md:block cursor-pointer text-gray-600 hover:text-white uppercase">Why
                                 us</a>
-                            <Link to={'https://tech-savvy-solution.web.app/contactus'} className="hidden md:block cursor-pointer text-gray-600 hover:text-white uppercase">Contact</Link>
+                            <a href={'https://tech-savvy-solution.web.app/contactus'} className="hidden md:block cursor-pointer text-gray-600 hover:text-white uppercase">Contact</a>
                             <div className="flex flex-row space-x-8 items-center justify-between">
                                 <a href="https://linkedin.com/company/tech-savvy-solution">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill='#fff'
