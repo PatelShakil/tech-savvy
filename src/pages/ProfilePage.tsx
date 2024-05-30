@@ -12,6 +12,7 @@ import {ProjectData} from "../obj/ProjectData.tsx";
 import ProjectDataItem from "../components/utils/ProjectDataItem.tsx";
 import {PlusCircle} from "lucide-react";
 import {RotatingLogo} from "../components/utils/RotatingLogo.tsx";
+import {Helmet} from "react-helmet";
 
 const ProfilePage = () => {
     const COLORS_TOP = ["#13FFAA", "#1E67C6", "#CE84CF", "#DD335C"];
@@ -69,7 +70,15 @@ const ProfilePage = () => {
             {user ? (
                 isVerified ? (
                     <div className="container mx-auto py-8">
-
+                        <Helmet>
+                            <title>{user.name} | Tech Savvy</title>
+                            <meta property="og:url" content="https://tech-savvy-solution.web.app"/>
+                            <meta property="og:type" content="website"/>
+                            <meta property="og:title" content="Profile | Tech Savvy"/>
+                            <meta property="og:description"
+                                  content="At Tech-Savvy Solution, we specialize in delivering top-notch IT services tailored to your unique business requirements. From web and mobile app development to robust backend solutions and dynamic API integration, we cover all aspects of software development. Our expertise spans full-stack development, cross-platform mobile applications, and comprehensive DevOps practices. We pride ourselves on providing innovative, scalable, and efficient solutions that help your business thrive in a digital world. Let's build the future together."/>
+                            <meta property="og:image" content="https://tech-savvy-solution.web.app/assets/preview_image.png"/>
+                        </Helmet>
                         <div className="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4 mt-6">
                             <div className="col-span-4 sm:col-span-3">
                                 <div className="shadow rounded-lg p-6 sticky top-12">
