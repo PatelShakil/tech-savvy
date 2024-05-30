@@ -1,8 +1,19 @@
-const ClassesPage = () =>{
-    return(
-        <div className={"flex flex-col h-screen text-center items-center justify-center"}>
-            <h1 className={"text-6xl font-bold mb-10"}>Coming Soon...</h1>
-            <h1 className={"text-3xl font-bold"}>Tech Savvy Classes</h1>
+const ClassesPage = () => {
+    return (
+        <div className={"flex flex-col mt-12 lg:mt-16"}>
+            <div className={"flex items-center justify-center w-full"}>
+                <img src={"../assets/classes_landing.gif"} alt={"Gif"}
+                     className={"shadow-lg mx-2 rounded-lg lg:h-96 lg:w-full lg:object-cover"}/>
+            </div>
+            <div className={"flex w-full items-center justify-center"}>
+                <img src={"../assets/classes_brochure.png"} alt={"Brochure"} className={"h-fit"} />
+            </div>
+
+
+
+
+
+
         </div>
     )
 }

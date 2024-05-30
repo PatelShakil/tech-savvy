@@ -17,6 +17,7 @@ import ProjectsPage from "./pages/ProjectsPage.tsx";
 import ServicesPage from "./pages/ServicesPage.tsx";
 import AboutUsPage from "./pages/AboutUsPage.tsx";
 import ClassesPage from "./pages/ClassesPage.tsx";
+import ClassesRegistration from "./pages/classes/ClassesRegistration.tsx";
 
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
             <Route path={"/services"} element={<ServicesPage />} />
             <Route path={"/aboutus"} element={<AboutUsPage />} />
             <Route path={"/classes"} element={<ClassesPage />} />
+            <Route path={"/classes/register"} element={<ClassesRegistration />} />
             <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <ConditionalFooter />

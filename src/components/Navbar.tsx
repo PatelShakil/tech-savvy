@@ -96,7 +96,6 @@ const Navbar = () => {
 
                     }
                     <div className={'lg:hidden md-flex flex-col justify-end'}>
-
                         <button onClick={toggleNavbar}>
                             {
                                 isMobileDrawerOpen ? <X/> : <Menu/>
@@ -109,7 +108,7 @@ const Navbar = () => {
                         <div
                             className={'fixed right-0 mt-2 z-20 bg-neutral-900 w-full pb-12 flex flex-col justify-center items-center lg:hidden'}>
 
-                            <ul className={'text-center space-y-5 mb-5'}>
+                            <ul className={'text-center space-y-5 my-5'}>
                                 {
                                     navListData.length != 0 ?
                                         navListData.map((item, i) =>
