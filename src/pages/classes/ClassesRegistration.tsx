@@ -116,7 +116,7 @@ const ClassesRegistration = () => {
         <motion.div className="flex items-center justify-center py-16 w-full px-5 sm:px-0" style={{ backgroundImage }}>
             <Helmet>
                 <title>Registration | Tech Savvy</title>
-                <meta property="og:url" content="https://tech-savvy-solution.web.app"/>
+                <meta property="og:url" content="https://tech-savvy-solution.web.app/classes/register"/>
                 <meta property="og:type" content="website"/>
                 <meta property="og:title" content="Registration | Tech Savvy"/>
                 <meta property="og:description"

@@ -6,7 +6,7 @@ const ServicesPage = () =>{
         <div className={"flex flex-col my-12"}>
         <Helmet>
             <title>Services | Tech Savvy</title>
-            <meta property="og:url" content="https://tech-savvy-solution.web.app"/>
+            <meta property="og:url" content="https://tech-savvy-solution.web.app/services"/>
             <meta property="og:type" content="website"/>
             <meta property="og:title" content="Services | Tech Savvy"/>
             <meta property="og:description"
