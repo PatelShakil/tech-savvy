@@ -7,15 +7,7 @@ import { useNavigate } from "react-router-dom";
 import {Helmet} from "react-helmet";
 import axios from "axios";
 import { logEvent } from "firebase/analytics";
-
-
-interface ClassesRegistrationObj {
-    name: string;
-    email: string;
-    phone: string;
-    address: string;
-    isConfirmed: boolean;
-}
+import ClassesRegistrationObj from "../../obj/ClassesRegistrationObj.tsx";
 
 const COLORS_TOP = ["#13FFAA", "#1E67C6", "#CE84CF", "#DD335C"];
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -25,6 +17,7 @@ const ClassesRegistration = () => {
     const color = useMotionValue(COLORS_TOP[0]);
     const navigate = useNavigate();
     const [regCount, setRegCount] = useState(0);
+    const [penCount, setPenCount] = useState(0);
 
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -46,12 +39,16 @@ const ClassesRegistration = () => {
 
         const unsubscribe = onValue(dataRef, (snapshot) => {
             let count = 0;
+            let countP = 0;
             snapshot.forEach((c) => {
                 const std = c.val() as ClassesRegistrationObj;
                 if (std.isConfirmed) {
                     count++;
+                }else{
+                    countP++;
                 }
             });
+            setPenCount(countP)
             setRegCount(count);
         });
 
@@ -88,7 +85,8 @@ const ClassesRegistration = () => {
                 email,
                 phone,
                 address,
-                isConfirmed: false
+                isConfirmed: false,
+                timestamp:new Date().toLocaleString()
             };
 
             set(ref(database, 'students/' + phone), obj)
@@ -147,7 +145,10 @@ const ClassesRegistration = () => {
                     <img src={'../assets/classes_reg_lg.png'} alt={"login img"}/>
                 </div>
                 <div className="w-full p-8 lg:w-1/2">
-                    <CountUpAnimation initialValue={0} targetValue={regCount}/>
+                    <div className={"flex justify-center"}>
+                        <PendingAnimation initialValue={0} targetValue={penCount} />
+                        <CountUpAnimation initialValue={0} targetValue={regCount}/>
+                    </div>
                     <div className="bg-white w-full h-0.5 my-2 rounded-lg"/>
                     <motion.p className="text-xl text-center" style={{color}}>Welcome to <br/>Tech Savvy Classes
                     </motion.p>
@@ -220,7 +221,36 @@ const CountUpAnimation = ({initialValue, targetValue}: { initialValue: number, t
                 <span className="text-5xl font-bold">{targetValue == 0 ? 0 : count}</span>
                 <CheckCircle className="text-green-500 mb-1" />
             </div>
-            <span className="text-sm font-light">Registrations Confirmed</span>
+            <span className="text-sm font-light text-center">Confirmed<br/>Registrations</span>
+        </div>
+    );
+};
+const PendingAnimation = ({initialValue, targetValue}: { initialValue: number, targetValue: number }) => {
+    const [count, setCount] = useState(initialValue);
+    const duration = 4000;
+
+    useEffect(() => {
+        let startValue = initialValue;
+        const interval = Math.floor(duration / (targetValue - initialValue));
+
+        const counter = setInterval(() => {
+            startValue += 1;
+            setCount(startValue);
+            if (startValue >= targetValue) {
+                clearInterval(counter);
+            }
+        }, interval);
+
+        return () => clearInterval(counter);
+    }, [targetValue, initialValue]);
+
+    return (
+        <div className="flex flex-col w-full items-center justify-center space-y-2">
+            <div className="flex flex-row justify-center items-center gap-2">
+                <span className="text-5xl font-bold">{targetValue == 0 ? 0 : count}</span>
+                <CheckCircle className="text-yellow-500 mb-1" />
+            </div>
+            <span className="text-sm font-light text-center">Pending<br/>Registration</span>
         </div>
     );
 };

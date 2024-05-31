@@ -4,4 +4,5 @@ export default interface ClassesRegistrationObj {
     phone: string;
     address: string;
     isConfirmed:boolean;
+    timestamp:string
 }
