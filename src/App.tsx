@@ -16,7 +16,7 @@ import NotFoundPage from "./components/NotFoundPage.tsx";
 import ProjectsPage from "./pages/ProjectsPage.tsx";
 import ServicesPage from "./pages/ServicesPage.tsx";
 import AboutUsPage from "./pages/AboutUsPage.tsx";
-import ClassesPage from "./pages/ClassesPage.tsx";
+import ClassesPage from "./pages/classes/ClassesPage.tsx";
 import ClassesRegistration from "./pages/classes/ClassesRegistration.tsx";
 
 

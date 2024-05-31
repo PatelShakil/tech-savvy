@@ -2,9 +2,12 @@ import { useEffect, useState, useCallback } from "react";
 import { animate, motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import { CheckCircle } from "lucide-react";
 import { onValue, ref, set } from "firebase/database";
-import { database } from "../../firebase";
+import {analytics, database} from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import {Helmet} from "react-helmet";
+import axios from "axios";
+import { logEvent } from "firebase/analytics";
+
 
 interface ClassesRegistrationObj {
     name: string;
@@ -48,8 +51,6 @@ const ClassesRegistration = () => {
                 if (std.isConfirmed) {
                     count++;
                 }
-                console.log(std)
-
             });
             setRegCount(count);
         });
@@ -112,6 +113,20 @@ const ClassesRegistration = () => {
         }
     }, [name, email, phone, address, emailError, phoneError, validateEmail, validatePhone, navigate]);
 
+    const getData = async () => {
+        try {
+            const res = await axios.get("https://api.ipify.org/?format=json");
+            logEvent(analytics, 'ip_address_logged', { ip_address: res.data });
+        }catch(e){
+            console.log(e)
+        }
+    };
+
+    useEffect(() => {
+        //passing getData method to the lifecycle method
+        getData();
+    }, []);
+
     return (
         <motion.div className="flex items-center justify-center py-16 w-full px-5 sm:px-0" style={{ backgroundImage }}>
             <Helmet>
@@ -121,7 +136,7 @@ const ClassesRegistration = () => {
                 <meta property="og:title" content="Registration | Tech Savvy"/>
                 <meta property="og:description"
                       content="At Tech-Savvy Solution, we specialize in delivering top-notch IT services tailored to your unique business requirements. From web and mobile app development to robust backend solutions and dynamic API integration, we cover all aspects of software development. Our expertise spans full-stack development, cross-platform mobile applications, and comprehensive DevOps practices. We pride ourselves on providing innovative, scalable, and efficient solutions that help your business thrive in a digital world. Let's build the future together."/>
-                <meta property="og:image" content="https://tech-savvy-solution.web.app/assets/preview_image.png"/>
+                <meta property="og:image" content="https://tech-savvy-solution.web.app/assets/classes_brochure.png"/>
             </Helmet>
             <motion.div
                 className="flex rounded-lg shadow-lg border overflow-hidden items-center max-w-sm lg:max-w-4xl w-full bg-black"
