@@ -116,7 +116,7 @@ const ClassesRegistration = () => {
     const getData = async () => {
         try {
             const res = await axios.get("https://api.ipify.org/?format=json");
-            logEvent(analytics, 'ip_address_logged', { ip_address: res.data });
+            logEvent(analytics, 'ip_address_logged', { ip_address: res.data.ip });
         }catch(e){
             console.log(e)
         }
