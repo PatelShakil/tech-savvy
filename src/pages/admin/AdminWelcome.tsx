@@ -18,13 +18,17 @@ const AdminWelcome = () =>{
         {
             name:"Classes",
             path:"/classes"
+        },
+        {
+            name:"Add Class",
+            path:"/addclass"
         }
     ]
 
 
     return(
-        <div className={"flex flex-col justify-center items-center mt-16"}>
-            <h1 className={"text-center text-8xl"}>Welcome Admin</h1>
+        <div className={"flex flex-col justify-center items-center h-screen"}>
+            <h1 className={"text-center text-3xl"}>Welcome Admin</h1>
             <div className={"flex flex-wrap"}>
                 {
                     opList.map((op:AdminOperation,index) => (

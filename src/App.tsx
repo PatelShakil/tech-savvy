@@ -18,6 +18,7 @@ import AdminWelcome from "./pages/admin/AdminWelcome.tsx";
 import {useAuthState} from "./pages/admin/states/UseAuthState.tsx";
 import AdminClasses from "./pages/admin/AdminClasses.tsx";
 import AdminStudents from "./pages/admin/AdminStudents.tsx";
+import AddClass from "./pages/admin/AddClass.tsx";
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
                                 <Route path={"/admin"} element={<AdminWelcome/>}/>
                                 <Route path={"/admin/classes"} element={<AdminClasses/>}/>
                                 <Route path={"/admin/students"} element={<AdminStudents/>}/>
+                                <Route path={"/admin/addclass"} element={<AddClass/>}/>
                             </>
                         )
                     }

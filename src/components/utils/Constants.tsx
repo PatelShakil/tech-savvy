@@ -85,3 +85,20 @@ export function LightenDarkenColor(col: string, amt: number) {
 
     return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
 }
+
+export function generateId(batch: string): string {
+    const now = new Date();
+
+    const pad = (num: number) => num.toString().padStart(2, '0');
+    const hours = now.getHours();
+    const minutes = pad(now.getMinutes());
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const hours12 = hours % 12 || 12; // Convert to 12-hour format
+    const day = pad(now.getDate());
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const month = monthNames[now.getMonth()];
+    const year = now.getFullYear();
+
+    return `TS_${pad(hours12)}_${minutes}_${ampm}_${day}_${month}_${year}_${batch}`;
+}
+

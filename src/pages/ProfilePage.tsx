@@ -13,6 +13,7 @@ import ProjectDataItem from "../components/utils/ProjectDataItem.tsx";
 import {PlusCircle} from "lucide-react";
 import {RotatingLogo} from "../components/utils/RotatingLogo.tsx";
 import {Helmet} from "react-helmet";
+import {useAuthState} from "./admin/states/UseAuthState.tsx";
 
 const ProfilePage = () => {
     const COLORS_TOP = ["#13FFAA", "#1E67C6", "#CE84CF", "#DD335C"];
@@ -31,6 +32,7 @@ const ProfilePage = () => {
             repeatType: "mirror",
         });
     }, [color]);
+    const state = useAuthState();
 
     const fetchProjects = useCallback((uid: string) => {
         const dataRef = ref(database, "users/" + uid + "/projects");
@@ -97,13 +99,27 @@ const ProfilePage = () => {
                                             >
                                                 <span className="text-sm">Logout</span>
                                             </button>
+                                            {
+                                                state && (
+                                                    state.user && (
+                                                     state.user.email == "patelsakib95@gmail.com" && (
+                                                         <button
+                                                             onClick={()=>window.location.href="https://tech-savvy-solution.web.app/admin"}
+                                                             className="flex flex-row drop-shadow-lg bg-gradient-to-r from-green-500 to-yellow-500 px-4 py-2 rounded-xl hover:bg-black"
+                                                         >
+                                                             <span className="text-sm">Admin</span>
+                                                         </button>
+                                                     )
+                                                    )
+                                                )
+                                            }
                                         </div>
                                     </div>
                                     <hr className="my-6 border-t border-gray-300"/>
                                 </div>
                             </div>
                             <div className="col-span-4 sm:col-span-9">
-                                <div className={"flex flex-row items-center gap-1"}>
+                            <div className={"flex flex-row items-center gap-1"}>
                                     <h1
                                         className="text-xl lg:text-4xl bg-clip-text text-transparent lg:mt-2 p-4"
                                         style={{backgroundImage: gradient}}
