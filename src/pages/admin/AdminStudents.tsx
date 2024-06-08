@@ -40,6 +40,13 @@ const AdminStudents = () => {
                             <h1>
                                 {std.name}
                             </h1>
+                            <button  onClick={()=>{
+                                window.location.href = "https://wa.me/91" + std.phone
+                            }}
+                            className={"bg-green-500 rounded->lg hover:bg-black my-1"}
+                            >
+                                <h1>Message on Whatsapp</h1>
+                            </button>
                             <span>
                                 {std.email}
                             </span>
@@ -52,4 +59,4 @@ const AdminStudents = () => {
     )
 }
 
-export default AdminStudents
+export default AdminStudents;
