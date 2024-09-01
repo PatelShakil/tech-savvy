@@ -1,9 +1,9 @@
 
 
 const PrivacyPolicy = () => {
-    return <div>
-        <h1>Privacy Policy</h1>
-        <p>Last updated: September 01, 2024</p>
+    return <div className={"my-16 text-justify pb-10 py-3 px-10 bg-white text-black"}>
+        <h1 className={"text-center text-2xl text-bold"}>Privacy Policy</h1>
+        <p className={"text-sm pb-2"}>Last updated: September 01, 2024</p>
         <p>This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your
             information when You use the Service and tells You about Your privacy rights and how the law protects
             You.</p>
