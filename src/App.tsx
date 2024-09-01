@@ -19,6 +19,9 @@ import {useAuthState} from "./pages/admin/states/UseAuthState.tsx";
 import AdminClasses from "./pages/admin/AdminClasses.tsx";
 import AdminStudents from "./pages/admin/AdminStudents.tsx";
 import AddClass from "./pages/admin/AddClass.tsx";
+import PrivacyPolicy from "./pages/apps/bytebuddy/PrivacyPolicy.tsx";
+import DeleteAc from "./pages/apps/bytebuddy/DeleteAc.tsx";
+import Pages from "./utils/Pages.ts";
 
 
 function App() {
@@ -51,6 +54,8 @@ function App() {
                             </>
                         )
                     }
+                    <Route path={Pages.Bytebuddy.PrivacyPolicy} element={<PrivacyPolicy />} />
+                    <Route path={Pages.Bytebuddy.DeleteAc} element={<DeleteAc />} />
 
 
                     <Route path="*" element={<NotFoundPage/>}/>
