@@ -22,6 +22,7 @@ import AddClass from "./pages/admin/AddClass.tsx";
 import PrivacyPolicy from "./pages/apps/bytebuddy/PrivacyPolicy.tsx";
 import DeleteAc from "./pages/apps/bytebuddy/DeleteAc.tsx";
 import Pages from "./utils/Pages.ts";
+import ByteBuddyHome from "./pages/apps/bytebuddy/ByteBuddyHome.tsx";
 
 
 function App() {
@@ -54,6 +55,8 @@ function App() {
                             </>
                         )
                     }
+
+                    <Route path={Pages.Bytebuddy.Home} element={<ByteBuddyHome />} />
                     <Route path={Pages.Bytebuddy.PrivacyPolicy} element={<PrivacyPolicy />} />
                     <Route path={Pages.Bytebuddy.DeleteAc} element={<DeleteAc />} />
 
@@ -72,7 +75,7 @@ const ConditionalFooter = () => {
     const location = useLocation();
 
     // List of paths where the footer should be hidden
-    const hiddenFooterPaths = ['/profile', '/admin'];
+    const hiddenFooterPaths = ['/profile', '/admin','/apps/bytebuddy'];
 
     // Check if the current path is one of the hidden paths
     const isFooterPageVisible = !hiddenFooterPaths.includes(location.pathname);

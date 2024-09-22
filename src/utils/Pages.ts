@@ -1,7 +1,8 @@
 const Pages = {
     Bytebuddy : {
         PrivacyPolicy : "/apps/bytebuddy/privacy-policy",
-        DeleteAc : "/apps/bytebuddy/delete-account"
+        DeleteAc : "/apps/bytebuddy/delete-account",
+        Home:"/apps/bytebuddy"
     }
 }
 

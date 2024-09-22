@@ -4,7 +4,7 @@ const Footer = () =>{
     return(
             <div className="w-full min-h-screen flex items-center justify-center bg-black">
                 <div className="md:w-2/3 w-full px-4 text-white flex flex-col">
-                    <div className="w-full text-7xl font-bold">
+                    <div className="w-full text-3xl font-bold">
                         <h1 className="w-full md:w-2/3">How can we help you ?<br />get
                             in touch</h1>
                     </div>
