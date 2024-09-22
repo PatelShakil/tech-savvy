@@ -55,7 +55,7 @@ const ByteBuddyHome = () => {
 
             {/* Technical Approach Section */}
             <section className="mt-10 px-6 bg-[#111] py-10 rounded-lg">
-                <h2 className="text-center text-4xl font-bold mb-6 animate-pulse">Our Technical Approach</h2>
+                <h2 className="text-center text-4xl font-bold mb-6 animate-pulse">What We Have ?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Smart Learning */}
                     <div className="bg-[#222] p-6 rounded-lg shadow-lg">
