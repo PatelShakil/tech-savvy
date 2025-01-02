@@ -23,6 +23,7 @@ import PrivacyPolicy from "./pages/apps/bytebuddy/PrivacyPolicy.tsx";
 import DeleteAc from "./pages/apps/bytebuddy/DeleteAc.tsx";
 import Pages from "./utils/Pages.ts";
 import ByteBuddyHome from "./pages/apps/bytebuddy/ByteBuddyHome.tsx";
+import TechSavvyPrivacyPolicy from "./pages/apps/tech-savvy/TechSavvyPrivacyPolicy.tsx";
 
 
 function App() {
@@ -59,6 +60,8 @@ function App() {
                     <Route path={Pages.Bytebuddy.Home} element={<ByteBuddyHome />} />
                     <Route path={Pages.Bytebuddy.PrivacyPolicy} element={<PrivacyPolicy />} />
                     <Route path={Pages.Bytebuddy.DeleteAc} element={<DeleteAc />} />
+
+                    <Route path={Pages.TechSavvy.PrivacyPolicy} element={<TechSavvyPrivacyPolicy />} />
 
 
                     <Route path="*" element={<NotFoundPage/>}/>
