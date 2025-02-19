@@ -13,10 +13,10 @@ const COLORS_TOP = ["#13FFAA", "#1E67C6", "#CE84CF", "#DD335C"];
 const Navbar = () => {
 
 
-    const navListData : NavItem[] = [
+    const navListData: NavItem[] = [
         {
-          "name":"Classes",
-          "path":"/classes"
+            "name": "Classes",
+            "path": "/classes"
         },
         {
             "name": "Services",
@@ -27,12 +27,12 @@ const Navbar = () => {
             "path": "/projects"
         },
         {
-            "name":"About Us",
-            "path":"/aboutus"
+            "name": "About Us",
+            "path": "/aboutus"
         },
         {
-            "name":"Contact Us",
-            "path":"/contactus"
+            "name": "Contact Us",
+            "path": "/contactus"
         }
     ];
     const location = useLocation();
@@ -69,11 +69,14 @@ const Navbar = () => {
                         {
                             navListData.length != 0 ?
                                 navListData.map((item, i) => <li key={i}>
-                                    {
-                                        <Link reloadDocument={true} className={"text-gray-400 text-sm hover:text-white font-bold " +
-                                            `${location.pathname === item.path && "text-white underline rounded-xl"}`} to={item.path}>{item.name}
-                                        </Link>
-                                    }
+                                        {
+                                            <Link reloadDocument={true}
+                                                  className={"text-gray-400  text-sm hover:text-white font-bold " +
+                                                      `${location.pathname === item.path && "text-white underline rounded-xl"}`}
+                                                  to={item.path}
+                                            >{item.name}
+                                            </Link>
+                                        }
                                     </li>
                                 )
                                 :
@@ -105,47 +108,53 @@ const Navbar = () => {
                 </div>
                 {
                     isMobileDrawerOpen && (
-                        <div
-                            className={'fixed right-0 mt-2 z-20 bg-neutral-900 w-full pb-12 flex flex-col justify-center items-center lg:hidden'}>
-
-                            <ul className={'text-center space-y-5 my-5'}>
+                        <div className={"fixed flex flex-col h-screen w-full shadow-lg z-20 lg:hidden"}>
+                            <div
+                                className={'relative bg-neutral-900 pb-12 flex flex-col justify-center items-center '}>
+                                <ul className={'text-center space-y-5 my-5'}>
+                                    {
+                                        navListData.length != 0 ?
+                                            navListData.map((item, i) =>
+                                                <li>
+                                                    <Link key={i} reloadDocument={true}
+                                                          className={"text-gray-200 backdrop-blur-2xl rounded-lg p-1 bg-neutral-600 px-3 text-sm hover:text-black font-bold " +
+                                                              `${location.pathname === item.path && "text-black underline rounded-xl"}`}
+                                                          to={item.path}>{item.name}
+                                                    </Link>
+                                                </li>
+                                            ) : <LoadingComponent/>
+                                    }
+                                </ul>
                                 {
-                                    navListData.length != 0 ?
-                                        navListData.map((item, i) =>
-                                            <li>
-                                            <Link key={i} reloadDocument={true} className={"text-gray-400 text-sm hover:text-white font-bold " +
-                                                `${location.pathname === item.path && "text-white underline rounded-xl"}`} to={item.path}>{item.name}
-                                            </Link>
-                                            </li>
-                                        ) : <LoadingComponent/>
-                                }
-                            </ul>
-                            {
-                                auth.currentUser != null ?
-                                    <UserNavComp/>
-                                    : <div className={'flex space-x-6 pt-5'}>
-                                        <div className="lg:hidden justify-center space-x-12 items-center">
-                                            <Link to="/login" className="py-2 px-3 border rounded-md">
-                                                Login
-                                            </Link>
-                                            <Link to={'/signup'}
-                                                  className={'bg-gradient-to-r from-green-500 to-green-900 py-2 px-3 rounded-md'}>Create
-                                                an Account</Link>
-                                        </div>
-                                    </div>
-                            }
+                                    auth.currentUser != null ?
+                                        <UserNavComp/>
+                                        : <div className="flex flex-col justify-center">
+                                                <a href="/login" className="py-2 text-center px-3 border rounded-md mb-2">
+                                                    Login
+                                                </a>
 
+                                                <a href={'/signup'}
+                                                      className={'bg-green-600 text-center py-2 px-3 rounded-md'}>Create
+                                                    an Account</a>
+                                        </div>
+                                }
+                            </div>
+                            <div className={"flex-1 backdrop-blur-2xl bg-transparent"}
+                            onClick={toggleNavbar}
+                            >
+
+                            </div>
                         </div>
                     )
                 }
 
             </div>
             <motion.div className={"w-full h-1 mt-1"}
-                 style={{
-                     scaleX: scrollYProgress,
-                     backgroundImage:backgroundImage,
-                     transformOrigin:'left'
-                 }}
+                        style={{
+                            scaleX: scrollYProgress,
+                            backgroundImage: backgroundImage,
+                            transformOrigin: 'left'
+                        }}
             />
 
         </nav>

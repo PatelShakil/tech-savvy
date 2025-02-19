@@ -25,7 +25,7 @@ const Footer = () =>{
                                 us</a>
                             <a href={'https://tech-savvy-solution.web.app/contactus'} className="hidden md:block cursor-pointer text-gray-600 hover:text-white uppercase">Contact</a>
                             <div className="flex flex-row space-x-8 items-center justify-between">
-                                <a href="https://linkedin.com/company/tech-savvy-solution">
+                                <a href="https://linkedin.com/company/tech-savvy-it-solution">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill='#fff'
                                          viewBox="0 0 511 512">
                                         <path

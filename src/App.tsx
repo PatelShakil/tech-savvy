@@ -78,7 +78,7 @@ const ConditionalFooter = () => {
     const location = useLocation();
 
     // List of paths where the footer should be hidden
-    const hiddenFooterPaths = ['/profile', '/admin','/apps/bytebuddy'];
+    const hiddenFooterPaths = ['/profile', '/admin','/apps/bytebuddy','/aboutus'];
 
     // Check if the current path is one of the hidden paths
     const isFooterPageVisible = !hiddenFooterPaths.includes(location.pathname);
