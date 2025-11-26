@@ -12,7 +12,7 @@ import NotFoundPage from "./components/NotFoundPage.tsx";
 import ProjectsPage from "./pages/ProjectsPage.tsx";
 import ServicesPage from "./pages/ServicesPage.tsx";
 import AboutUsPage from "./pages/AboutUsPage.tsx";
-import ClassesPage from "./pages/classes/ClassesPage.tsx";
+// import ClassesPage from "./pages/classes/ClassesPage.tsx";
 import ClassesRegistration from "./pages/classes/ClassesRegistration.tsx";
 import AdminWelcome from "./pages/admin/AdminWelcome.tsx";
 import {useAuthState} from "./pages/admin/states/UseAuthState.tsx";
@@ -52,7 +52,7 @@ function App() {
                     <Route path={"/projects"} element={<ProjectsPage/>}/>
                     <Route path={"/services"} element={<ServicesPage/>}/>
                     <Route path={"/aboutus"} element={<AboutUsPage/>}/>
-                    <Route path={"/classes"} element={<ClassesPage/>}/>
+                    {/*<Route path={"/classes"} element={<ClassesPage/>}/>*/}
                     <Route path={"/classes/register"} element={<ClassesRegistration/>}/>
                     <Route path="/programs/apply/:programId" element={<ProgramApplicationForm/>}/>
 

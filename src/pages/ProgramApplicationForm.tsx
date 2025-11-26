@@ -62,7 +62,7 @@ const ProgramApplicationForm: React.FC = () => {
                 phone: formData.phone,
                 college: formData.college,
                 year: formData.year,
-                reason: formData.reason,
+                reason: formData.reason || "",
                 portfolio: formData.portfolio || null,
                 status: 'pending',
                 submittedAt: serverTimestamp(),
@@ -249,7 +249,7 @@ const ProgramApplicationForm: React.FC = () => {
                             <div className="space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                                        Why do you want to join this program? *
+                                        Why do you want to join this program?
                                     </label>
                                     <textarea
                                         name="reason"
@@ -259,7 +259,6 @@ const ProgramApplicationForm: React.FC = () => {
                                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                                         placeholder="Tell us about your motivation, goals, and what you hope to learn..."
                                         required
-                                        minLength={50}
                                     />
                                     <p className="text-xs text-gray-500 mt-1">Minimum 50 characters</p>
                                 </div>

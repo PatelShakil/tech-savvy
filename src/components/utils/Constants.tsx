@@ -1,13 +1,6 @@
 import ServicesItem from "../../obj/ServicesItem.tsx";
 export const services: ServicesItem[] = [
     {
-        id: 1,
-        name: 'Coaching Classes',
-        color: '#ec4343',
-        icon: null,
-        description: 'We offer a diverse range of classes designed to boost your skills and knowledge in various fields. Our experienced instructors provide hands-on training and in-depth insights, ensuring a comprehensive learning experience.'
-    },
-    {
         id: 2,
         name: 'Web Development',
         color: '#ed9c1f',

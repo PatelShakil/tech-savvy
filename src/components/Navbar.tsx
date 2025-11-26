@@ -15,10 +15,6 @@ const Navbar = () => {
 
     const navListData: NavItem[] = [
         {
-            "name": "Classes",
-            "path": "/classes"
-        },
-        {
             "name": "Services",
             "path": "/services"
         },
