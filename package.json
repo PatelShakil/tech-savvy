@@ -10,9 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "axios": "^1.7.2",
     "firebase": "^10.12.0",
     "framer-motion": "^11.2.4",
+    "heroicons": "^2.2.0",
     "lucide-react": "^0.378.0",
     "minidenticons": "^4.2.1",
     "react": "^18.2.0",
@@ -21,13 +23,15 @@
     "react-helmet": "^6.1.0",
     "react-icons": "^5.2.1",
     "react-router-dom": "^6.23.1",
-    "react-tooltip": "^5.26.4"
+    "react-tooltip": "^5.26.4",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@react-three/drei": "^9.105.6",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@types/react-helmet": "^6.1.11",
+    "@types/xlsx": "^0.0.35",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",

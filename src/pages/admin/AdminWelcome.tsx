@@ -1,4 +1,4 @@
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 interface AdminOperation {
     name:string,
@@ -29,6 +29,13 @@ const AdminWelcome = () =>{
     return(
         <div className={"flex flex-col justify-center items-center h-screen"}>
             <h1 className={"text-center text-3xl"}>Welcome Admin</h1>
+            <Link
+                to="/admin/dashboard"
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
+                Go to Program Dashboard
+            </Link>
+
             <div className={"flex flex-wrap"}>
                 {
                     opList.map((op:AdminOperation,index) => (

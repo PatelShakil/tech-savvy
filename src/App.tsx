@@ -25,10 +25,18 @@ import Pages from "./utils/Pages.ts";
 import ByteBuddyHome from "./pages/apps/bytebuddy/ByteBuddyHome.tsx";
 import TechSavvyPrivacyPolicy from "./pages/apps/tech-savvy/TechSavvyPrivacyPolicy.tsx";
 
+// NEW IMPORTS FOR PROGRAM MANAGEMENT
+import AdminDashboard from "./pages/admin/programs/AdminDashboard.tsx";
+import ProgramsList from "./pages/admin/programs/ProgramsList.tsx";
+import AddProgram from "./pages/admin/programs/AddProgram.tsx";
+import ProgramDetails from "./pages/admin/programs/ProgramDetails.tsx";
+import ProgramApplicationForm from "./pages/ProgramApplicationForm.tsx";
+// import EditProgram from "./pages/admin/programs/EditProgram.tsx";
+// import ProgramDetails from "./pages/admin/programs/ProgramDetails.tsx";
+// import AdminApplications from "./pages/admin/programs/AdminApplications.tsx";
 
 function App() {
     const {isLogin, user} = useAuthState();
-
 
     return (
         <Router>
@@ -46,23 +54,36 @@ function App() {
                     <Route path={"/aboutus"} element={<AboutUsPage/>}/>
                     <Route path={"/classes"} element={<ClassesPage/>}/>
                     <Route path={"/classes/register"} element={<ClassesRegistration/>}/>
+                    <Route path="/programs/apply/:programId" element={<ProgramApplicationForm/>}/>
+
+
+                    {/* ADMIN ROUTES - Only accessible to admin email */}
                     {
                         user?.email === "patelsakib95@gmail.com" && (
                             <>
+                                {/* Existing Admin Routes */}
                                 <Route path={"/admin"} element={<AdminWelcome/>}/>
                                 <Route path={"/admin/classes"} element={<AdminClasses/>}/>
                                 <Route path={"/admin/students"} element={<AdminStudents/>}/>
                                 <Route path={"/admin/addclass"} element={<AddClass/>}/>
+
+                                {/* NEW: Program Management Routes */}
+                                <Route path={"/admin/dashboard"} element={<AdminDashboard/>}/>
+                                <Route path={"/admin/programs"} element={<ProgramsList/>}/>
+                                <Route path={"/admin/programs/add"} element={<AddProgram/>}/>
+                                <Route path={"/admin/programs/:id"} element={<ProgramDetails/>}/>
+                                {/*<Route path={"/admin/programs/edit/:id"} element={<EditProgram/>}/>*/}
+                                {/*<Route path={"/admin/programs/:id"} element={<ProgramDetails/>}/>*/}
+                                {/*<Route path={"/admin/applications"} element={<AdminApplications/>}/>*/}
                             </>
                         )
                     }
 
+                    {/* App-specific Routes */}
                     <Route path={Pages.Bytebuddy.Home} element={<ByteBuddyHome />} />
                     <Route path={Pages.Bytebuddy.PrivacyPolicy} element={<PrivacyPolicy />} />
                     <Route path={Pages.Bytebuddy.DeleteAc} element={<DeleteAc />} />
-
                     <Route path={Pages.TechSavvy.PrivacyPolicy} element={<TechSavvyPrivacyPolicy />} />
-
 
                     <Route path="*" element={<NotFoundPage/>}/>
                 </Routes>
@@ -77,12 +98,13 @@ export default App;
 const ConditionalFooter = () => {
     const location = useLocation();
 
-    // List of paths where the footer should be hidden
-    const hiddenFooterPaths = ['/profile', '/admin','/apps/bytebuddy','/aboutus'];
+    // Updated to hide footer on all admin pages
+    const hiddenFooterPaths = ['/profile', '/admin', '/apps/bytebuddy', '/aboutus'];
 
-    // Check if the current path is one of the hidden paths
-    const isFooterPageVisible = !hiddenFooterPaths.includes(location.pathname);
+    // Check if current path starts with any hidden path
+    const isFooterPageVisible = !hiddenFooterPaths.some(path =>
+        location.pathname.startsWith(path)
+    );
 
-    // Conditionally render the footer
     return isFooterPageVisible ? <Footer/> : null;
 };
