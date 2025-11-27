@@ -5,7 +5,8 @@ const Pages = {
         Home:"/apps/bytebuddy"
     },
     TechSavvy : {
-        PrivacyPolicy : "/apps/tech-savvy/privacy-policy"
+        PrivacyPolicy : "/apps/tech-savvy/privacy-policy",
+        TermsOfService : "/apps/tech-savvy/terms-of-service"
     }
 }
 

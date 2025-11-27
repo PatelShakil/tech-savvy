@@ -114,3 +114,18 @@ export interface GroupChatMessage {
     isHidden: boolean;
     isPinned: boolean;
 }
+// Web Admin - TypeScript
+// interface Recording {
+//     id: string;
+//     programId: string;
+//     sessionId?: string; // Optional link to session
+//     title: string;
+//     description: string;
+//     youtubeUrl: string;
+//     thumbnailUrl?: string;
+//     duration?: string;
+//     tags: string[];
+//     uploadedAt: any;
+//     uploadedBy: string;
+//     views: number;
+// }

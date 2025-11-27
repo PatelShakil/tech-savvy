@@ -52,7 +52,12 @@ const AddProgram: React.FC = () => {
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        if(e.target.name == "feePerStudent"){
+            setFormData({...formData,feePerStudent: parseInt(e.target.value)})
+        }
+
         setFormData({ ...formData, [e.target.name]: e.target.value });
+
     };
 
     const addMilestone = () => {

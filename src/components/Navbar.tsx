@@ -50,8 +50,10 @@ const Navbar = () => {
 
     const backgroundImage = useMotionTemplate`linear-gradient(30deg,${color},white)`;
 
+    if(window.location.pathname.includes("/admin")) return ;
+
     return (
-        <nav className={'fixed z-50 w-full pt-1 backdrop-blur-lg border-b-neutral-700 shadow-green-400'}>
+        <nav className={'fixed z-50 w-full pt-1 bg-gray-900 border-b-neutral-700 shadow-green-400'}>
             <div className={''}>
                 <div className={'flex justify-between items-center text-sm px-2'}>
                     <Link to={"/"} className={'flex items-center flex-shrink-0'}>

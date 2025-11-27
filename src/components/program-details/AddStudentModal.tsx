@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {collection, addDoc, getDocs, query, where, serverTimestamp, updateDoc, doc} from 'firebase/firestore';
+import {collection, addDoc,setDoc, getDocs, query, where, serverTimestamp, updateDoc, doc} from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import {auth, db} from "../../firebase.ts";
@@ -71,14 +71,15 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({ programId, feePerStud
             const userId = userCredential.user.uid;
 
             // Add student to students collection
-            const studentRef = await addDoc(collection(db, 'students'), {
-                uid: userId,
+            await setDoc(doc(db, "students", userId), {
                 name: formData.name,
                 email: formData.email,
                 phone: formData.phone,
-                status: 'active',
+                status: "active",
+                uid: userId,
                 createdAt: serverTimestamp(),
-            });
+            }, { merge: true });
+
 
             let groupId = formData.groupId;
 
@@ -87,7 +88,7 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({ programId, feePerStud
                 const groupRef = await addDoc(collection(db, 'groups'), {
                     programId: programId,
                     groupName: newGroupName,
-                    members: [studentRef.id],
+                    members: [userId],
                     projectTitle: '',
                     totalFee: feePerStudent,
                     createdAt: serverTimestamp(),
@@ -97,7 +98,7 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({ programId, feePerStud
                 // Update existing group members
                 const group = groups.find(g => g.id === groupId);
                 if (group) {
-                    const updatedMembers = [...group.members, studentRef.id];
+                    const updatedMembers = [...group.members, userId];
                     await updateDoc(doc(db, 'groups', groupId), {
                         members: updatedMembers,
                         totalFee: updatedMembers.length * feePerStudent,
@@ -108,7 +109,7 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({ programId, feePerStud
             // Add enrollment
             await addDoc(collection(db, 'programEnrollments'), {
                 programId: programId,
-                studentId: studentRef.id,
+                studentId: userId,
                 groupId: groupId || '',
                 feeStatus: formData.feeStatus,
                 feeAmount: feePerStudent,

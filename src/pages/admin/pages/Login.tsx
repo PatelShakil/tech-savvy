@@ -17,7 +17,7 @@ const Login: React.FC = () => {
 
         try {
             await login(email, password);
-            navigate('/dashboard');
+            navigate('/admin/dashboard');
         } catch (err: any) {
             setError('Invalid credentials. Please try again.');
         } finally {

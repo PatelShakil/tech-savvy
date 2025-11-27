@@ -18,6 +18,7 @@ const DashboardTab: React.FC<DashboardTabProps> = ({ program, stats }) => {
         ? ((stats.feesCollected / totalExpectedRevenue) * 100).toFixed(1)
         : 0;
 
+
     return (
         <div className="space-y-6">
             <div>
@@ -27,34 +28,34 @@ const DashboardTab: React.FC<DashboardTabProps> = ({ program, stats }) => {
                     <div className="space-y-3">
                         <div className="flex justify-between">
                             <span className="text-gray-600">Program Category:</span>
-                            <span className="font-medium capitalize">{program.category}</span>
+                            <span className="font-medium text-black capitalize">{program.category && program.category}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-gray-600">Duration:</span>
-                            <span className="font-medium">{program.startDate} to {program.endDate}</span>
+                            <span className="font-medium text-black">{program.startDate} to {program.endDate}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-gray-600">Application Deadline:</span>
-                            <span className="font-medium">{program.applicationDeadline}</span>
+                            <span className="font-medium text-black">{program.applicationDeadline}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-gray-600">Max Students:</span>
-                            <span className="font-medium">{program.maxStudents}</span>
+                            <span className="font-medium text-black">{program.maxStudents}</span>
                         </div>
                     </div>
 
                     <div className="space-y-3">
                         <div className="flex justify-between">
                             <span className="text-gray-600">Fee Per Student:</span>
-                            <span className="font-medium">₹{program.feePerStudent.toLocaleString()}</span>
+                            <span className="font-medium text-green-600">₹{program.feePerStudent.toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-gray-600">Enrolled Students:</span>
-                            <span className="font-medium">{stats.totalStudents}</span>
+                            <span className="font-medium text-green-600 ">{stats.totalStudents}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-gray-600">Expected Revenue:</span>
-                            <span className="font-medium">₹{totalExpectedRevenue.toLocaleString()}</span>
+                            <span className="font-medium text-green-600">₹{totalExpectedRevenue.toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-gray-600">Collection Rate:</span>

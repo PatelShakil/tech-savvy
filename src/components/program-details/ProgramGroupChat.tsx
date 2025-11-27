@@ -136,9 +136,34 @@ const ProgramGroupChat: React.FC<ProgramGroupChatProps> = ({ programId }) => {
                     </p>
                     <div className="space-y-2">
                         {pinnedMessages.map((msg) => (
-                            <div key={msg.id} className="bg-white border border-yellow-300 rounded p-2 text-sm">
+                            <div key={msg.id} className="bg-white relative border border-yellow-300 rounded p-2 text-sm">
                                 <p className="font-medium text-gray-800">{msg.senderName}</p>
                                 <p className="text-gray-700">{msg.message}</p>
+                                <div className="flex right-0 z-20 absolute bottom-0  gap-1  group-hover:opacity-100 transition">
+                                    <button
+                                        onClick={() => handlePinMessage(msg.id, msg.isPinned)}
+                                        className={`p-1 rounded hover:bg-gray-200 ${
+                                            msg.isPinned ? 'text-yellow-600' : 'text-gray-600'
+                                        }`}
+                                        title={msg.isPinned ? 'Unpin' : 'Pin'}
+                                    >
+                                        <MapPinIcon className="w-4 h-4" />
+                                    </button>
+                                    <button
+                                        onClick={() => handleHideMessage(msg.id, msg.isHidden)}
+                                        className="p-1 rounded hover:bg-gray-200 text-gray-600"
+                                        title={msg.isHidden ? 'Unhide' : 'Hide'}
+                                    >
+                                        <EyeSlashIcon className="w-4 h-4" />
+                                    </button>
+                                    <button
+                                        onClick={() => handleDeleteMessage(msg.id)}
+                                        className="p-1 rounded hover:bg-red-200 text-red-600"
+                                        title="Delete"
+                                    >
+                                        <TrashIcon className="w-4 h-4" />
+                                    </button>
+                                </div>
                             </div>
                         ))}
                     </div>

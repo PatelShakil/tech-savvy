@@ -7,3 +7,11 @@
 font-family: "Poppins", sans-serif;
 color-scheme: dark;
 }
+.no-scrollbar::-webkit-scrollbar {
+    display: none; /* Hides scrollbar on Chrome, Safari */
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;  /* Hides scrollbar on Internet Explorer */
+    scrollbar-width: none;     /* Hides scrollbar on Firefox */
+}

@@ -87,7 +87,7 @@ const ProgramApplicationForm: React.FC = () => {
 
     if (!program) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+            <div className="min-h-screen mt-5 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
                 <div className="text-gray-600">Program not found</div>
             </div>
         );
@@ -95,7 +95,7 @@ const ProgramApplicationForm: React.FC = () => {
 
     if (submitted) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+            <div className="min-h-screen mt-5 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
                 <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
                     <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <CheckCircleIcon className="w-10 h-10 text-green-600" />
@@ -125,7 +125,7 @@ const ProgramApplicationForm: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
+        <div className="min-h-screen mt-5 bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
             <div className="max-w-3xl mx-auto">
                 {/* Program Info */}
                 <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">

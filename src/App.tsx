@@ -31,7 +31,8 @@ import ProgramsList from "./pages/admin/programs/ProgramsList.tsx";
 import AddProgram from "./pages/admin/programs/AddProgram.tsx";
 import ProgramDetails from "./pages/admin/programs/ProgramDetails.tsx";
 import ProgramApplicationForm from "./pages/ProgramApplicationForm.tsx";
-// import EditProgram from "./pages/admin/programs/EditProgram.tsx";
+import EditProgram from "./pages/admin/programs/EditProgram.tsx";
+import ProgramsPage from "./pages/ProgramsPage.tsx";
 // import ProgramDetails from "./pages/admin/programs/ProgramDetails.tsx";
 // import AdminApplications from "./pages/admin/programs/AdminApplications.tsx";
 
@@ -55,6 +56,7 @@ function App() {
                     {/*<Route path={"/classes"} element={<ClassesPage/>}/>*/}
                     <Route path={"/classes/register"} element={<ClassesRegistration/>}/>
                     <Route path="/programs/apply/:programId" element={<ProgramApplicationForm/>}/>
+                    <Route path="/programs" element={<ProgramsPage />} />
 
 
                     {/* ADMIN ROUTES - Only accessible to admin email */}
@@ -72,7 +74,7 @@ function App() {
                                 <Route path={"/admin/programs"} element={<ProgramsList/>}/>
                                 <Route path={"/admin/programs/add"} element={<AddProgram/>}/>
                                 <Route path={"/admin/programs/:id"} element={<ProgramDetails/>}/>
-                                {/*<Route path={"/admin/programs/edit/:id"} element={<EditProgram/>}/>*/}
+                                <Route path={"/admin/programs/edit/:id"} element={<EditProgram/>}/>
                                 {/*<Route path={"/admin/programs/:id"} element={<ProgramDetails/>}/>*/}
                                 {/*<Route path={"/admin/applications"} element={<AdminApplications/>}/>*/}
                             </>
