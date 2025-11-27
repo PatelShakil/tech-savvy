@@ -78,7 +78,7 @@ const ProgramsPage: React.FC = () => {
                             Join Tech Savvy Solution and transform your career
                         </p>
                         <p className="text-blue-100">
-                            🏢 MSME Registered | 500+ Students Trained | Industry-Focused Learning
+                            🏢 MSME Registered | Industry-Focused Learning
                         </p>
                     </div>
                 </div>
@@ -244,15 +244,6 @@ const ProgramsPage: React.FC = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Footer */}
-            <footer className="bg-gray-800 text-white mt-16 py-8">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <p className="text-gray-400">
-                        © 2025 Tech Savvy Solution. All rights reserved. | MSME Registered
-                    </p>
-                </div>
-            </footer>
         </div>
     );
 };

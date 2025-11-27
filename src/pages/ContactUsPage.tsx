@@ -105,9 +105,9 @@ const ContactUsPage = () =>{
                                         d="M184.08 64.008c-39.704 0-72 32.304-72 72s32.296 72 72 72 72-32.304 72-72-32.296-72-72-72zm0 128c-30.872 0-56-25.12-56-56s25.128-56 56-56 56 25.12 56 56-25.128 56-56 56z"
                                         data-original="#000000"></path>
                                 </svg>
-                                <a href="https://maps.app.goo.gl/gccuSpkzeJY19D4q9" className="text-white text-sm ml-3">
-                                    <strong>Surat, Gujarat India 393135</strong>
-                                </a>
+                                {/*<a href="https://maps.app.goo.gl/gccuSpkzeJY19D4q9" className="text-white text-sm ml-3">*/}
+                                {/*    <strong>Surat, Gujarat India 393135</strong>*/}
+                                {/*</a>*/}
                             </li>
                         </ul>
                         <ul className="flex mt-12 space-x-4">

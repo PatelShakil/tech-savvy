@@ -17,12 +17,12 @@ const Footer = () =>{
                     </div>
                     <div className="flex flex-col">
                         <div className="flex mt-24 mb-12 flex-row justify-between items-center">
-                            <h1 className={"text-2xl lg:text-3xl font-bold text-white"}>Tech Savvy
+                            <h1 className={"text-2xl lg:text-3xl font-bold text-white"}>Tech Savvy Solution
                             </h1>
                             <a href={"/aboutus"} className="hidden md:block cursor-pointer text-gray-600 hover:text-white uppercase">About</a>
+                            <a href={"/programs"} className="hidden md:block cursor-pointer text-gray-600 hover:text-white uppercase">Programs</a>
                             <a href={"/services"} className="hidden md:block cursor-pointer text-gray-600 hover:text-white uppercase">Services</a>
-                            <a className="hidden md:block cursor-pointer text-gray-600 hover:text-white uppercase">Why
-                                us</a>
+
                             <a href={'https://tech-savvy-solution.web.app/contactus'} className="hidden md:block cursor-pointer text-gray-600 hover:text-white uppercase">Contact</a>
                             <div className="flex flex-row space-x-8 items-center justify-between">
                                 <a href="https://linkedin.com/company/tech-savvy-it-solution">
@@ -33,7 +33,7 @@ const Footer = () =>{
                                             data-original="#000000"/>
                                     </svg>
                                 </a>
-                                <Link to={"https://www.instagram.com/tech.savvy.ig"}>
+                                <Link to={"https://www.instagram.com/tech_savvy_solution"}>
                                     <svg xmlns="http://www.w3.org/2000/svg"  width="18px" height="18px" viewBox="0 0 14 10" fill="#fff">
                                         <path
                                             d="M5.99536 2.91345C5.17815 2.91345 4.39441 3.23809 3.81655 3.81594C3.2387 4.3938 2.91406 5.17754 2.91406 5.99475C2.91406 6.81196 3.2387 7.5957 3.81655 8.17356C4.39441 8.75141 5.17815 9.07605 5.99536 9.07605C6.81257 9.07605 7.59631 8.75141 8.17417 8.17356C8.75202 7.5957 9.07666 6.81196 9.07666 5.99475C9.07666 5.17754 8.75202 4.3938 8.17417 3.81594C7.59631 3.23809 6.81257 2.91345 5.99536 2.91345ZM5.99536 7.99586C5.46446 7.99586 4.9553 7.78496 4.57989 7.40955C4.20448 7.03415 3.99358 6.52499 3.99358 5.99408C3.99358 5.46318 4.20448 4.95402 4.57989 4.57861C4.9553 4.20321 5.46446 3.99231 5.99536 3.99231C6.52626 3.99231 7.03542 4.20321 7.41083 4.57861C7.78624 4.95402 7.99714 5.46318 7.99714 5.99408C7.99714 6.52499 7.78624 7.03415 7.41083 7.40955C7.03542 7.78496 6.52626 7.99586 5.99536 7.99586Z"
@@ -49,7 +49,7 @@ const Footer = () =>{
                             </div>
                         </div>
                         <hr className="border-gray-600"/>
-                        <p className="w-full text-center my-12 text-gray-600">Copyright © 2024 Tech Savvy Solution</p>
+                        <p className="w-full text-center my-12 text-gray-600">Copyright © 2025 Tech Savvy Solution</p>
                     </div>
                 </div>
             </div>
