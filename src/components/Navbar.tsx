@@ -63,7 +63,7 @@ const Navbar = () => {
                     <Link to={"/"} className={'flex items-center flex-shrink-0'}>
                         <RotatingLogo/>
                         <motion.span className={"text-2xl lg:text-3xl font-bold bg-clip-text text-transparent"}
-                                     style={{backgroundImage}}>Tech Savvy
+                                     style={{backgroundImage}}>Tech Savvy Solution
                         </motion.span>
                     </Link>
                     <ul
