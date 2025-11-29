@@ -1,5 +1,5 @@
 import './index.css';
-import {BrowserRouter as Router, Route, Routes, useLocation} from 'react-router-dom';
+import {BrowserRouter as Router, Navigate, Route, Routes, useLocation} from 'react-router-dom';
 import HomePage from "./pages/HomePage.tsx";
 import SignupPage from "./pages/SignupPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
@@ -12,6 +12,8 @@ import NotFoundPage from "./components/NotFoundPage.tsx";
 import ProjectsPage from "./pages/ProjectsPage.tsx";
 import ServicesPage from "./pages/ServicesPage.tsx";
 import AboutUsPage from "./pages/AboutUsPage.tsx";
+import StudentProgramList from "./pages/student/programs/ProgramsList.tsx";
+import StudentProgramDetails from "./pages/student/programs/ProgramDetails.tsx";
 // import ClassesPage from "./pages/classes/ClassesPage.tsx";
 import ClassesRegistration from "./pages/classes/ClassesRegistration.tsx";
 import AdminWelcome from "./pages/admin/AdminWelcome.tsx";
@@ -33,6 +35,14 @@ import ProgramDetails from "./pages/admin/programs/ProgramDetails.tsx";
 import ProgramApplicationForm from "./pages/ProgramApplicationForm.tsx";
 import EditProgram from "./pages/admin/programs/EditProgram.tsx";
 import ProgramsPage from "./pages/ProgramsPage.tsx";
+import StudentLogin from "./pages/student/auth/StudentLogin.tsx";
+import ForgotPassword from "./pages/student/auth/ForgotPassword.tsx";
+import StudentLayout from "./components/student/layout/StudentLayout.tsx";
+import StudentDashboard from "./pages/student/dashboard/StudentDashboard.tsx";
+import StudentProfile from "./pages/student/profile/StudentProfile.tsx";
+import Settings from "./pages/student/settings/Settings.tsx";
+import PrivateRoute from "./components/PrivateRoute.tsx";
+import EditProfile from "./pages/student/profile/EditProfile.tsx";
 // import ProgramDetails from "./pages/admin/programs/ProgramDetails.tsx";
 // import AdminApplications from "./pages/admin/programs/AdminApplications.tsx";
 
@@ -58,6 +68,25 @@ function App() {
                     <Route path="/programs/apply/:programId" element={<ProgramApplicationForm/>}/>
                     <Route path="/programs" element={<ProgramsPage />} />
 
+                    {/* Student Routes - NO REGISTRATION */}
+                    <Route path="/student/login" element={<StudentLogin />} />
+                    <Route path="/student/forgot-password" element={<ForgotPassword />} />
+
+                    {/* Student Protected Routes with Layout */}
+                    <Route path="/student" element={
+                        <PrivateRoute role="student">
+                            <StudentLayout />
+                        </PrivateRoute>
+                    }>
+                        {/* Nested routes - these will render in <Outlet /> */}
+                        <Route path="dashboard" element={<StudentDashboard />} />
+                        <Route path="programs" element={<StudentProgramList />} />
+                        <Route path="programs/:id" element={<StudentProgramDetails />} />
+                        <Route path="profile" element={<StudentProfile />} />
+                        <Route path="profile/edit" element={<EditProfile />} />
+                        <Route path="settings" element={<Settings />} />
+                        <Route index element={<Navigate to="/student/dashboard" replace />} />
+                    </Route>
 
                     {/* ADMIN ROUTES - Only accessible to admin email */}
                     {
@@ -101,7 +130,7 @@ const ConditionalFooter = () => {
     const location = useLocation();
 
     // Updated to hide footer on all admin pages
-    const hiddenFooterPaths = ['/profile', '/admin', '/apps/bytebuddy', '/aboutus'];
+    const hiddenFooterPaths = ['/profile', '/admin', '/apps/bytebuddy', '/aboutus','/student'];
 
     // Check if current path starts with any hidden path
     const isFooterPageVisible = !hiddenFooterPaths.some(path =>

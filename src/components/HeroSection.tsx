@@ -78,14 +78,14 @@ const HeroSection = () => {
                     }}
                     onClick={()=>{
                         if(isLogin) {
-                            navigate('/profile');
+                            navigate('/student/dashboard');
                         }else {
-                            navigate('/signup');
+                            navigate('/student/login');
                         }
                     }}
-                    className="group relative flex w-fit items-center gap-1.5 rounded-full bg-gray-950/10 px-4 py-2 text-gray-50 transition-colors hover:bg-gray-950/50"
+                    className="group mb-4 relative flex w-fit items-center gap-1.5 rounded-full bg-gray-950/10 px-4 py-2 text-gray-50 transition-colors hover:bg-gray-950/50"
                 >
-                    {isLogin ? "Go to Profile" : "Create an Account"}
+                    {isLogin ? "Student Portal" : "Login as Student"}
                     <FiArrowRight className="transition-transform group-hover:-rotate-45 group-active:-rotate-12"/>
                 </motion.button>
             </div>

@@ -54,7 +54,7 @@ const Navbar = () => {
 
     const backgroundImage = useMotionTemplate`linear-gradient(30deg,${color},white)`;
 
-    if(window.location.pathname.includes("/admin")) return ;
+    if(window.location.pathname.includes("/admin") || window.location.pathname.includes("/student")) return ;
 
     return (
         <nav className={'fixed z-50 w-full pt-1 bg-gray-900 border-b-neutral-700 shadow-green-400'}>

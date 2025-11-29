@@ -52,7 +52,7 @@ export interface Enrollment {
     groupId: string;
     feeStatus: 'paid' | 'pending';
     feeAmount: number;
-    joinedAt: Date;
+    joinedAt: any;
 }
 
 export interface Session {

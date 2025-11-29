@@ -20,7 +20,7 @@ const UserNavComp = () => {
 
     useEffect(() => {
 
-        const dataRef = ref(database, "users/" + auth.currentUser!.uid);
+        const dataRef = ref(database, "students/" + auth.currentUser!.uid);
 
         onValue(dataRef, (snapshot) => {
 
