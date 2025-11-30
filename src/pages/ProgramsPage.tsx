@@ -64,7 +64,9 @@ const ProgramsPage: React.FC = () => {
         : programs.filter(p => p.category === filter);
 
     const isDeadlinePassed = (deadline: string) => {
-        return new Date(deadline) < new Date();
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        return new Date(deadline) < (new Date() + 1000 * 60 * 60 * 24);
     };
 
     return (

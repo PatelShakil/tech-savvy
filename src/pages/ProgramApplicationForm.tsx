@@ -145,6 +145,7 @@ const ProgramApplicationForm: React.FC = () => {
                             <p className="text-gray-500">Fee</p>
                             <p className="font-medium text-gray-800">₹{program.feePerStudent?.toLocaleString()}</p>
                         </div>
+                        <p className={"text-gray-700 text-sm lg:col-span-3"}>**Notes : This fee includes cost of server, live sessions recordings and certifications.</p>
                     </div>
                 </div>
 
