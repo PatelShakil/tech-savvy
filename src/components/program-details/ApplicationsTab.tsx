@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { collection, query, where, getDocs, updateDoc, addDoc, doc, serverTimestamp } from 'firebase/firestore';
+import {collection, query, where, getDocs, updateDoc, addDoc, doc, serverTimestamp, setDoc} from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { db, auth } from '../../firebase';
 import { CheckCircleIcon, XCircleIcon, ClockIcon, EyeIcon } from '@heroicons/react/24/outline';
@@ -85,16 +85,26 @@ const ApplicationsTab: React.FC<ApplicationsTabProps> = ({ programId, feePerStud
             const userId = userCredential.user.uid;
 
             // Add to students collection
-            const studentRef = await addDoc(collection(db, 'students'), {
-                uid: userId,
+            // const studentRef = await addDoc(collection(db, 'students'), {
+            //     uid: userId,
+            //     name: application.name,
+            //     email: application.email,
+            //     phone: application.phone,
+            //     college: application.college,
+            //     year: application.year,
+            //     status: 'active',
+            //     createdAt: serverTimestamp(),
+            // });
+            await setDoc(doc(db, "students", userId), {
                 name: application.name,
                 email: application.email,
                 phone: application.phone,
                 college: application.college,
                 year: application.year,
-                status: 'active',
+                status: "active",
+                uid: userId,
                 createdAt: serverTimestamp(),
-            });
+            }, { merge: true });
 
             let groupId = '';
 
@@ -103,7 +113,7 @@ const ApplicationsTab: React.FC<ApplicationsTabProps> = ({ programId, feePerStud
                 const groupRef = await addDoc(collection(db, 'groups'), {
                     programId: programId,
                     groupName: groupName.trim(),
-                    members: [studentRef.id],
+                    members: [userId],
                     projectTitle: '',
                     totalFee: feePerStudent,
                     createdAt: serverTimestamp(),
@@ -114,7 +124,7 @@ const ApplicationsTab: React.FC<ApplicationsTabProps> = ({ programId, feePerStud
             // Add enrollment
             await addDoc(collection(db, 'programEnrollments'), {
                 programId: programId,
-                studentId: studentRef.id,
+                studentId: userId,
                 groupId: groupId,
                 feeStatus: 'pending',
                 feeAmount: feePerStudent,

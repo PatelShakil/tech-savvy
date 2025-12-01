@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { collection, addDoc, doc, getDoc, serverTimestamp } from 'firebase/firestore';
+import {collection, addDoc, doc, getDoc, serverTimestamp} from 'firebase/firestore';
 import { db } from '../firebase';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
 
