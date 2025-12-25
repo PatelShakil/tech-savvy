@@ -39,12 +39,12 @@ const AdminClasses = () => {
         <motion.div className="flex flex-col items-center justify-center py-16 w-full px-5 sm:px-0" style={{ backgroundImage }}>
             <Helmet>
                 <title>Admin Classes | Tech Savvy</title>
-                <meta property="og:url" content="https://tech-savvy-solution.web.app/admin/classes" />
+                <meta property="og:url" content="https://techsavvysolution.in/admin/classes" />
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="Admin Classes | Tech Savvy" />
                 <meta property="og:description"
                       content="Manage all classes in Tech-Savvy Solution. View, edit, and delete classes from this admin panel." />
-                <meta property="og:image" content="https://tech-savvy-solution.web.app/assets/admin_classes.png" />
+                <meta property="og:image" content="https://techsavvysolution.in/assets/admin_classes.png" />
             </Helmet>
             <motion.div
                 className="flex flex-col rounded-lg shadow-lg border overflow-hidden items-center max-w-4xl w-full bg-black"

@@ -15,3 +15,16 @@ color-scheme: dark;
     -ms-overflow-style: none;  /* Hides scrollbar on Internet Explorer */
     scrollbar-width: none;     /* Hides scrollbar on Firefox */
 }
+@keyframes gradient-shift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 5s ease infinite;
+}

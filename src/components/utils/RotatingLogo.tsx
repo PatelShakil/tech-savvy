@@ -5,7 +5,7 @@ export const RotatingLogo = () => {
         <motion.img
             src="/assets/logo_gr_tr.png"
             alt="Logo"
-            className="h-12 mr-2 rounded-full"
+            className="h-14 rounded-full"
             // animate={{ rotate: 360 }}
             // transition={{
             //     repeat: Infinity,

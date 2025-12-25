@@ -43,6 +43,12 @@ import StudentProfile from "./pages/student/profile/StudentProfile.tsx";
 import Settings from "./pages/student/settings/Settings.tsx";
 import PrivateRoute from "./components/PrivateRoute.tsx";
 import EditProfile from "./pages/student/profile/EditProfile.tsx";
+import PrivacyPolicyPage from "./pages/utility/PrivacyPolicyPage.tsx";
+import TermsOfServicePage from "./pages/utility/TermsOfServicePage.tsx";
+import SitemapPage from "./pages/utility/SitemapPage.tsx";
+import RefundPolicyPage from "./pages/utility/RefundPolicyPage.tsx";
+import SitemapXML from "./pages/SitemapXML.tsx";
+import ScrollToTop from "./components/ScrollToTop.tsx";
 // import ProgramDetails from "./pages/admin/programs/ProgramDetails.tsx";
 // import AdminApplications from "./pages/admin/programs/AdminApplications.tsx";
 
@@ -51,6 +57,7 @@ function App() {
 
     return (
         <Router>
+            <ScrollToTop />
             <div className={"flex flex-col p-0 m-auto"}>
                 <Navbar/>
                 <Routes>
@@ -67,6 +74,11 @@ function App() {
                     <Route path={"/classes/register"} element={<ClassesRegistration/>}/>
                     <Route path="/programs/apply/:programId" element={<ProgramApplicationForm/>}/>
                     <Route path="/programs" element={<ProgramsPage />} />
+                    <Route path="/sitemap.xml" element={<SitemapXML />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+                    <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+                    <Route path="/sitemap" element={<SitemapPage />} />
+                    <Route path="/refund-policy" element={<RefundPolicyPage />} />
 
                     {/* Student Routes - NO REGISTRATION */}
                     <Route path="/student/login" element={<StudentLogin />} />
@@ -130,7 +142,7 @@ const ConditionalFooter = () => {
     const location = useLocation();
 
     // Updated to hide footer on all admin pages
-    const hiddenFooterPaths = ['/profile', '/admin', '/apps/bytebuddy', '/aboutus','/student'];
+    const hiddenFooterPaths = ['/profile', '/admin', '/apps/bytebuddy','/student'];
 
     // Check if current path starts with any hidden path
     const isFooterPageVisible = !hiddenFooterPaths.some(path =>

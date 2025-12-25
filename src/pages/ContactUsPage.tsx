@@ -1,191 +1,560 @@
-import {useState} from "react";
-import ContactForm from "../obj/ContactsForm.tsx";
-import {database} from "../firebase.ts";
-import {ref, set} from "firebase/database";
-import {services} from "../components/utils/Constants.tsx";
+import { motion } from "framer-motion";
+import { useState, FormEvent } from "react";
+import { Helmet } from "react-helmet";
+import {
+    FiMail,
+    FiPhone,
+    FiMapPin,
+    FiSend,
+    FiLinkedin,
+    FiInstagram,
+    FiYoutube,
+    FiGithub,
+    FiCheckCircle,
+    FiClock,
+    FiGlobe
+} from "react-icons/fi";
 
-const ContactUsPage = () =>{
+const COLORS_TOP = ["#13FFAA", "#1E67C6", "#CE84CF", "#DD335C"];
+const gradient = `linear-gradient(to right, ${COLORS_TOP.join(', ')})`;
 
-    const [selectedServices, setSelectedServices] = useState<string[]>([]);
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [subject, setSubject] = useState('');
-    const [message, setMessage] = useState('');
+const services = [
+    'Microservices Architecture',
+    'SaaS Development',
+    'Android Development',
+    'Web Development',
+    'Backend & API Development',
+    'Cloud & DevOps',
+    'Cross-Platform Mobile',
+    'Enterprise Solutions'
+];
 
-    const validateForm = (): boolean => {
-        return (
-            selectedServices.length > 0 &&
-            name.trim() !== '' &&
-            email.trim() !== '' &&
-            subject.trim() !== '' &&
-            message.trim() !== ''
-        );
+const ContactUsPage = () => {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: '',
+        selectedServices: [] as string[]
+    });
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+    const [statusMessage, setStatusMessage] = useState('');
+
+    const handleServiceToggle = (service: string) => {
+        setFormData(prev => ({
+            ...prev,
+            selectedServices: prev.selectedServices.includes(service)
+                ? prev.selectedServices.filter(s => s !== service)
+                : [...prev.selectedServices, service]
+        }));
     };
 
-    const handleSendMessage = () => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const validateForm = (): boolean => {
+        if (formData.name.trim() === '') {
+            setStatusMessage('Please enter your name');
+            return false;
+        }
+        if (formData.email.trim() === '' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            setStatusMessage('Please enter a valid email address');
+            return false;
+        }
+        if (formData.subject.trim() === '') {
+            setStatusMessage('Please enter a subject');
+            return false;
+        }
+        if (formData.message.trim() === '') {
+            setStatusMessage('Please enter your message');
+            return false;
+        }
+        if (formData.selectedServices.length === 0) {
+            setStatusMessage('Please select at least one service');
+            return false;
+        }
+        return true;
+    };
+
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+
         if (!validateForm()) {
-            alert('Please fill out all fields.');
+            setSubmitStatus('error');
             return;
         }
 
-        const newMessage: ContactForm = {
-            selectedServices,
-            name,
-            email,
-            subject,
-            message
-        };
+        setIsSubmitting(true);
+        setSubmitStatus('idle');
 
-        const newMessageRef = ref(database, 'contactus/' + Date.now());
-        set(newMessageRef, newMessage)
-            .then(() => {
-                alert('Message sent successfully!');
-                // Clear form
-                setSelectedServices([]);
-                setName('');
-                setEmail('');
-                setSubject('');
-                setMessage('');
-            })
-            .catch((error) => {
-                console.error('Error sending message:', error);
-                alert('Failed to send message. Please try again.');
+        try {
+            const response = await fetch('/api/contactus.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: formData.name,
+                    email: formData.email,
+                    phone: formData.phone,
+                    subject: formData.subject,
+                    message: formData.message,
+                    services: formData.selectedServices.join(', ')
+                })
             });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                setSubmitStatus('success');
+                setStatusMessage('Thank you! Your message has been sent successfully. We\'ll get back to you within 24 hours.');
+
+                // Reset form
+                setFormData({
+                    name: '',
+                    email: '',
+                    phone: '',
+                    subject: '',
+                    message: '',
+                    selectedServices: []
+                });
+            } else {
+                throw new Error(data.message || 'Failed to send message');
+            }
+        } catch (error) {
+            setSubmitStatus('error');
+            setStatusMessage('Failed to send message. Please try again or contact us directly via email.');
+            console.error('Form submission error:', error);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
-
-
-
-    const handleServiceClick = (service: string) => {
-        setSelectedServices(prevState =>
-            prevState.includes(service)
-                ? prevState.filter(s => s !== service)
-                : [...prevState, service]
-        );
-    };
-
 
     return (
-        <div className={"flex flex-col my-12"}>
-            <div className="max-w-6xl mx-auto rounded-lg">
-                <div className="grid md:grid-cols-2 items-center gap-16 sm:p-10 p-4">
-                    <div>
-                        <h1 className="text-2xl md:text-5xl lg:text-7xl font-bold text-white">Get in Touch</h1>
-                        <p className="text-sm text-gray-400 mt-3">Have some big idea or brand to develop and need help?
-                            Then reach out we'd love to hear about your project and provide help.</p>
-                        <ul className="mt-12 space-y-8">
-                            <li className="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill='#fff'
-                                     viewBox="0 0 479.058 479.058">
-                                    <path
-                                        d="M434.146 59.882H44.912C20.146 59.882 0 80.028 0 104.794v269.47c0 24.766 20.146 44.912 44.912 44.912h389.234c24.766 0 44.912-20.146 44.912-44.912v-269.47c0-24.766-20.146-44.912-44.912-44.912zm0 29.941c2.034 0 3.969.422 5.738 1.159L239.529 264.631 39.173 90.982a14.902 14.902 0 0 1 5.738-1.159zm0 299.411H44.912c-8.26 0-14.971-6.71-14.971-14.971V122.615l199.778 173.141c2.822 2.441 6.316 3.655 9.81 3.655s6.988-1.213 9.81-3.655l199.778-173.141v251.649c-.001 8.26-6.711 14.97-14.971 14.97z"
-                                        data-original="#000000"/>
-                                </svg>
-                                <a href="mailto:info.techsavvysolution@gmail.com" className="text-white text-sm ml-3">
-                                    <strong>info.techsavvysolution@gmail.com</strong>
-                                </a>
-                            </li>
-                            <li className="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill='#fff'
-                                     viewBox="0 0 482.6 482.6">
-                                    <path
-                                        d="M98.339 320.8c47.6 56.9 104.9 101.7 170.3 133.4 24.9 11.8 58.2 25.8 95.3 28.2 2.3.1 4.5.2 6.8.2 24.9 0 44.9-8.6 61.2-26.3.1-.1.3-.3.4-.5 5.8-7 12.4-13.3 19.3-20 4.7-4.5 9.5-9.2 14.1-14 21.3-22.2 21.3-50.4-.2-71.9l-60.1-60.1c-10.2-10.6-22.4-16.2-35.2-16.2-12.8 0-25.1 5.6-35.6 16.1l-35.8 35.8c-3.3-1.9-6.7-3.6-9.9-5.2-4-2-7.7-3.9-11-6-32.6-20.7-62.2-47.7-90.5-82.4-14.3-18.1-23.9-33.3-30.6-48.8 9.4-8.5 18.2-17.4 26.7-26.1 3-3.1 6.1-6.2 9.2-9.3 10.8-10.8 16.6-23.3 16.6-36s-5.7-25.2-16.6-36l-29.8-29.8c-3.5-3.5-6.8-6.9-10.2-10.4-6.6-6.8-13.5-13.8-20.3-20.1-10.3-10.1-22.4-15.4-35.2-15.4-12.7 0-24.9 5.3-35.6 15.5l-37.4 37.4c-13.6 13.6-21.3 30.1-22.9 49.2-1.9 23.9 2.5 49.3 13.9 80 17.5 47.5 43.9 91.6 83.1 138.7zm-72.6-216.6c1.2-13.3 6.3-24.4 15.9-34l37.2-37.2c5.8-5.6 12.2-8.5 18.4-8.5 6.1 0 12.3 2.9 18 8.7 6.7 6.2 13 12.7 19.8 19.6 3.4 3.5 6.9 7 10.4 10.6l29.8 29.8c6.2 6.2 9.4 12.5 9.4 18.7s-3.2 12.5-9.4 18.7c-3.1 3.1-6.2 6.3-9.3 9.4-9.3 9.4-18 18.3-27.6 26.8l-.5.5c-8.3 8.3-7 16.2-5 22.2.1.3.2.5.3.8 7.7 18.5 18.4 36.1 35.1 57.1 30 37 61.6 65.7 96.4 87.8 4.3 2.8 8.9 5 13.2 7.2 4 2 7.7 3.9 11 6 .4.2.7.4 1.1.6 3.3 1.7 6.5 2.5 9.7 2.5 8 0 13.2-5.1 14.9-6.8l37.4-37.4c5.8-5.8 12.1-8.9 18.3-8.9 7.6 0 13.8 4.7 17.7 8.9l60.3 60.2c12 12 11.9 25-.3 37.7-4.2 4.5-8.6 8.8-13.3 13.3-7 6.8-14.3 13.8-20.9 21.7-11.5 12.4-25.2 18.2-42.9 18.2-1.7 0-3.5-.1-5.2-.2-32.8-2.1-63.3-14.9-86.2-25.8-62.2-30.1-116.8-72.8-162.1-127-37.3-44.9-62.4-86.7-79-131.5-10.3-27.5-14.2-49.6-12.6-69.7z"
-                                        data-original="#000000"></path>
-                                </svg>
-                                <a href="tel:919510634082" className="text-white text-sm ml-3">
-                                    <strong>+91 9510634082</strong>
-                                </a>
-                            </li>
-                            <li className="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill='#fff'
-                                     viewBox="0 0 368.16 368.16">
-                                    <path
-                                        d="M184.08 0c-74.992 0-136 61.008-136 136 0 24.688 11.072 51.24 11.536 52.36 3.576 8.488 10.632 21.672 15.72 29.4l93.248 141.288c3.816 5.792 9.464 9.112 15.496 9.112s11.68-3.32 15.496-9.104l93.256-141.296c5.096-7.728 12.144-20.912 15.72-29.4.464-1.112 11.528-27.664 11.528-52.36 0-74.992-61.008-136-136-136zM293.8 182.152c-3.192 7.608-9.76 19.872-14.328 26.8l-93.256 141.296c-1.84 2.792-2.424 2.792-4.264 0L88.696 208.952c-4.568-6.928-11.136-19.2-14.328-26.808-.136-.328-10.288-24.768-10.288-46.144 0-66.168 53.832-120 120-120s120 53.832 120 120c0 21.408-10.176 45.912-10.28 46.152z"
-                                        data-original="#000000"></path>
-                                    <path
-                                        d="M184.08 64.008c-39.704 0-72 32.304-72 72s32.296 72 72 72 72-32.304 72-72-32.296-72-72-72zm0 128c-30.872 0-56-25.12-56-56s25.128-56 56-56 56 25.12 56 56-25.128 56-56 56z"
-                                        data-original="#000000"></path>
-                                </svg>
-                                {/*<a href="https://maps.app.goo.gl/gccuSpkzeJY19D4q9" className="text-white text-sm ml-3">*/}
-                                {/*    <strong>Surat, Gujarat India 393135</strong>*/}
-                                {/*</a>*/}
-                            </li>
-                        </ul>
-                        <ul className="flex mt-12 space-x-4">
-                            <li className="bg-[#a91079] hover:bg-[#a91079e2] h-10 w-10 rounded-full flex items-center justify-center shrink-0">
-                                <a href="https://linkedin.com/company/tech-savvy-it-solution">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill='#fff'
-                                         viewBox="0 0 511 512">
-                                        <path
-                                            d="M111.898 160.664H15.5c-8.285 0-15 6.719-15 15V497c0 8.285 6.715 15 15 15h96.398c8.286 0 15-6.715 15-15V175.664c0-8.281-6.714-15-15-15zM96.898 482H30.5V190.664h66.398zM63.703 0C28.852 0 .5 28.352.5 63.195c0 34.852 28.352 63.2 63.203 63.2 34.848 0 63.195-28.352 63.195-63.2C126.898 28.352 98.551 0 63.703 0zm0 96.395c-18.308 0-33.203-14.891-33.203-33.2C30.5 44.891 45.395 30 63.703 30c18.305 0 33.195 14.89 33.195 33.195 0 18.309-14.89 33.2-33.195 33.2zm289.207 62.148c-22.8 0-45.273 5.496-65.398 15.777-.684-7.652-7.11-13.656-14.942-13.656h-96.406c-8.281 0-15 6.719-15 15V497c0 8.285 6.719 15 15 15h96.406c8.285 0 15-6.715 15-15V320.266c0-22.735 18.5-41.23 41.235-41.23 22.734 0 41.226 18.495 41.226 41.23V497c0 8.285 6.719 15 15 15h96.403c8.285 0 15-6.715 15-15V302.066c0-79.14-64.383-143.523-143.524-143.523zM466.434 482h-66.399V320.266c0-39.278-31.953-71.23-71.226-71.23-39.282 0-71.239 31.952-71.239 71.23V482h-66.402V190.664h66.402v11.082c0 5.77 3.309 11.027 8.512 13.524a15.01 15.01 0 0 0 15.875-1.82c20.313-16.294 44.852-24.907 70.953-24.907 62.598 0 113.524 50.926 113.524 113.523zm0 0"
-                                            data-original="#000000"/>
-                                    </svg>
-                                </a>
-                            </li>
-                            <li className="bg-[#a91079] hover:bg-[#a91079e2] h-10 w-10 rounded-full flex items-center justify-center shrink-0">
-                                <a href="https://instagram.com/tech_savvy_solution">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill='#fff'
-                                         viewBox="0 0 24 24">
-                                        <path
-                                            d="M12 9.3a2.7 2.7 0 1 0 0 5.4 2.7 2.7 0 0 0 0-5.4Zm0-1.8a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Zm5.85-.225a1.125 1.125 0 1 1-2.25 0 1.125 1.125 0 0 1 2.25 0ZM12 4.8c-2.227 0-2.59.006-3.626.052-.706.034-1.18.128-1.618.299a2.59 2.59 0 0 0-.972.633 2.601 2.601 0 0 0-.634.972c-.17.44-.265.913-.298 1.618C4.805 9.367 4.8 9.714 4.8 12c0 2.227.006 2.59.052 3.626.034.705.128 1.18.298 1.617.153.392.333.674.632.972.303.303.585.484.972.633.445.172.918.267 1.62.3.993.047 1.34.052 3.626.052 2.227 0 2.59-.006 3.626-.052.704-.034 1.178-.128 1.617-.298.39-.152.674-.333.972-.632.304-.303.485-.585.634-.972.171-.444.266-.918.299-1.62.047-.993.052-1.34.052-3.626 0-2.227-.006-2.59-.052-3.626-.034-.704-.128-1.18-.299-1.618a2.619 2.619 0 0 0-.633-.972 2.595 2.595 0 0 0-.972-.634c-.44-.17-.914-.265-1.618-.298-.993-.047-1.34-.052-3.626-.052ZM12 3c2.445 0 2.75.009 3.71.054.958.045 1.61.195 2.185.419A4.388 4.388 0 0 1 19.49 4.51c.457.45.812.994 1.038 1.595.222.573.373 1.227.418 2.185.042.96.054 1.265.054 3.71 0 2.445-.009 2.75-.054 3.71-.045.958-.196 1.61-.419 2.185a4.395 4.395 0 0 1-1.037 1.595 4.44 4.44 0 0 1-1.595 1.038c-.573.222-1.227.373-2.185.418-.96.042-1.265.054-3.71.054-2.445 0-2.75-.009-3.71-.054-.958-.045-1.61-.196-2.185-.419A4.402 4.402 0 0 1 4.51 19.49a4.414 4.414 0 0 1-1.037-1.595c-.224-.573-.374-1.227-.419-2.185C3.012 14.75 3 14.445 3 12c0-2.445.009-2.75.054-3.71s.195-1.61.419-2.185A4.392 4.392 0 0 1 4.51 4.51c.45-.458.994-.812 1.595-1.037.574-.224 1.226-.374 2.185-.419C9.25 3.012 9.555 3 12 3Z">
-                                        </path>
-                                    </svg>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="bg-gray-200 p-6 rounded-lg">
-                        <p className="text-sm font-semibold text-[#333] mb-2">I'm interested in...</p>
-                        <div className="flex flex-wrap gap-4 mb-4">
-                            {services.map(service => (
-                                <button
-                                    key={service.id}
-                                    type="button"
-                                    onClick={() => handleServiceClick(service.name)}
-                                    className={`px-4 py-2 rounded-md text-sm tracking-wider font-medium outline-none border-2 mr-4 ${
-                                        selectedServices.includes(service.name) ? 'bg-[#a91079] border-[#a91079]' : 'bg-gray-200 border-gray-200 '
-                                    }`}
-                                >
-                                    <span className={`border-[#a91079] text-bold ${selectedServices.includes(service.name) ? "text-white" : "text-black"}`}>{service.name}</span>
-                                </button>
-                            ))}
-                        </div>
-                        <form className="mt-8 space-y-4">
-                            <input type='text' placeholder='Name'
-                                   className="w-full rounded-md py-3 px-4 text-sm outline-[#a91079]"
-                                   onChange={(e)=>setName(e.target.value)}
-                                   required
-                            />
-                            <input type='email' placeholder='Email'
-                                   className="w-full rounded-md py-3 px-4 text-sm outline-[#a91079]"
-                                   onChange={(e)=>setEmail(e.target.value)}
-                                   required
-                            />
-                            <input type='text' placeholder='Subject'
-                                   className="w-full rounded-md py-3 px-4 text-sm outline-[#a91079]"
-                                   onChange={(e)=>setSubject(e.target.value)}
-                                   required/>
-                            <textarea placeholder='Message' rows={6}
-                                      className="w-full rounded-md px-4 text-sm pt-3 outline-[#a91079]"
-                                      onChange={(e)=>setMessage(e.target.value)}
-                                      required></textarea>
-                            <button type='submit'
-                                    className="text-white bg-[#a91079] hover:bg-[#a91079e2] font-semibold rounded-md text-sm px-4 py-3 flex items-center justify-center w-full"
-                            onClick={handleSendMessage}
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill='#fff'
-                                     className="mr-2" viewBox="0 0 548.244 548.244">
-                                    <path fill-rule="evenodd"
-                                          d="M392.19 156.054 211.268 281.667 22.032 218.58C8.823 214.168-.076 201.775 0 187.852c.077-13.923 9.078-26.24 22.338-30.498L506.15 1.549c11.5-3.697 24.123-.663 32.666 7.88 8.542 8.543 11.577 21.165 7.879 32.666L390.89 525.906c-4.258 13.26-16.575 22.261-30.498 22.338-13.923.076-26.316-8.823-30.728-22.032l-63.393-190.153z"
-                                          clip-rule="evenodd" data-original="#000000"/>
-                                </svg>
-                                Send Message
-                            </button>
-                        </form>
+        <div className="bg-gray-950 min-h-screen">
+            <Helmet>
+                <title>Contact Us | Tech Savvy Solution - Get In Touch</title>
+                <meta name="description" content="Contact Tech Savvy Solution for enterprise software development, microservices architecture, SaaS platforms, and mobile applications. Based in Surat, Gujarat." />
+                <meta property="og:title" content="Contact Us | Tech Savvy Solution" />
+                <meta property="og:description" content="Get in touch with our team for your next software project" />
+            </Helmet>
+
+            {/* Hero Section */}
+            <HeroSection />
+
+            {/* Main Content */}
+            <section className="py-20 px-4">
+                <div className="max-w-7xl mx-auto">
+                    <div className="grid lg:grid-cols-5 gap-12 items-start">
+
+                        {/* Left Side - Contact Info */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6 }}
+                            className="lg:col-span-2 space-y-8"
+                        >
+                            {/* Intro Text */}
+                            <div>
+                                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                                    Let's Build Something Amazing Together
+                                </h2>
+                                <p className="text-gray-400 text-lg leading-relaxed">
+                                    Have a project in mind? We'd love to hear about it. Whether you need microservices architecture, SaaS platforms, or mobile applications, our team is ready to turn your vision into reality.
+                                </p>
+                            </div>
+
+                            {/* Contact Cards */}
+                            <div className="space-y-4">
+                                <ContactCard
+                                    icon={<FiMail className="text-2xl" />}
+                                    title="Email Us"
+                                    content="info@techsavvysolution.in"
+                                    link="mailto:info@techsavvysolution.in"
+                                    color="from-blue-500 to-cyan-500"
+                                />
+                                <ContactCard
+                                    icon={<FiPhone className="text-2xl" />}
+                                    title="Call Us"
+                                    content="+91 9510634082"
+                                    link="tel:+919510634082"
+                                    color="from-green-500 to-emerald-500"
+                                />
+                                <ContactCard
+                                    icon={<FiMapPin className="text-2xl" />}
+                                    title="Visit Us"
+                                    content="Surat, Gujarat, India"
+                                    link="https://maps.app.goo.gl/gccuSpkzeJY19D4q9"
+                                    color="from-purple-500 to-pink-500"
+                                />
+                            </div>
+
+                            {/* Business Hours */}
+                            <div className="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg flex items-center justify-center">
+                                        <FiClock className="text-white text-2xl" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-white">Business Hours</h3>
+                                </div>
+                                <div className="space-y-2 text-gray-400">
+                                    <div className="flex justify-between">
+                                        <span>Monday - Friday</span>
+                                        <span className="text-white font-semibold">9:00 AM - 7:00 PM</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span>Saturday</span>
+                                        <span className="text-white font-semibold">10:00 AM - 5:00 PM</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span>Sunday</span>
+                                        <span className="text-gray-500">Closed</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Social Media */}
+                            <div>
+                                <h3 className="text-lg font-bold text-white mb-4">Follow Us</h3>
+                                <div className="flex gap-4">
+                                    <SocialButton
+                                        icon={<FiLinkedin />}
+                                        link="https://linkedin.com/company/tech-savvy-it-solution"
+                                        color="bg-blue-600 hover:bg-blue-700"
+                                    />
+                                    <SocialButton
+                                        icon={<FiInstagram />}
+                                        link="https://instagram.com/tech_savvy_solution"
+                                        color="bg-pink-600 hover:bg-pink-700"
+                                    />
+                                    <SocialButton
+                                        icon={<FiYoutube />}
+                                        link="https://www.youtube.com/@tech-savvy-solution"
+                                        color="bg-red-600 hover:bg-red-700"
+                                    />
+                                    <SocialButton
+                                        icon={<FiGithub />}
+                                        link="https://github.com/PatelShakil/tech-savvy"
+                                        color="bg-gray-700 hover:bg-gray-600"
+                                    />
+                                    <SocialButton
+                                        icon={<FiGlobe />}
+                                        link="https://techsavvysolution.patelshakil.tech"
+                                        color="bg-purple-600 hover:bg-purple-700"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Quick Stats */}
+                            <div className="bg-gradient-to-br from-blue-900/50 to-purple-900/50 p-6 rounded-xl border border-blue-500/30">
+                                <h3 className="text-lg font-bold text-white mb-4">Why Choose Us?</h3>
+                                <div className="space-y-3">
+                                    {[
+                                        'MSME Registered Company',
+                                        'Young Developer 2024 Winner',
+                                        '2+ Years Production Experience',
+                                        '20+ Projects Delivered',
+                                        '10K+ Active Users Served'
+                                    ].map((item, idx) => (
+                                        <div key={idx} className="flex items-center gap-3">
+                                            <FiCheckCircle className="text-green-400 flex-shrink-0" />
+                                            <span className="text-gray-300 text-sm">{item}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Right Side - Contact Form */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6 }}
+                            className="lg:col-span-3"
+                        >
+                            <div className="bg-gray-900 rounded-2xl p-8 md:p-10 border border-gray-800 shadow-2xl">
+                                <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">Send Us a Message</h3>
+                                <p className="text-gray-400 mb-8">Fill out the form below and we'll get back to you within 24 hours</p>
+
+                                <form onSubmit={handleSubmit} className="space-y-6">
+                                    {/* Services Selection */}
+                                    <div>
+                                        <label className="block text-sm font-semibold text-white mb-3">
+                                            I'm interested in... <span className="text-red-500">*</span>
+                                        </label>
+                                        <div className="flex flex-wrap gap-2">
+                                            {services.map((service) => (
+                                                <button
+                                                    key={service}
+                                                    type="button"
+                                                    onClick={() => handleServiceToggle(service)}
+                                                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                                                        formData.selectedServices.includes(service)
+                                                            ? 'bg-gradient-to-r from-teal-950 to-gray-950 text-white shadow-lg scale-105'
+                                                            : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                                                    }`}
+                                                >
+                                                    {service}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Name & Email Row */}
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-semibold text-white mb-2">
+                                                Your Name <span className="text-red-500">*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="name"
+                                                value={formData.name}
+                                                onChange={handleInputChange}
+                                                placeholder="John Doe"
+                                                className="w-full px-4 py-3 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
+                                                required
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-semibold text-white mb-2">
+                                                Email Address <span className="text-red-500">*</span>
+                                            </label>
+                                            <input
+                                                type="email"
+                                                name="email"
+                                                value={formData.email}
+                                                onChange={handleInputChange}
+                                                placeholder="john@example.com"
+                                                className="w-full px-4 py-3 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Phone & Subject Row */}
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-semibold text-white mb-2">
+                                                Phone Number <span className="text-gray-500">(Optional)</span>
+                                            </label>
+                                            <input
+                                                type="tel"
+                                                name="phone"
+                                                value={formData.phone}
+                                                onChange={handleInputChange}
+                                                placeholder="+91 9876543210"
+                                                className="w-full px-4 py-3 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-semibold text-white mb-2">
+                                                Subject <span className="text-red-500">*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="subject"
+                                                value={formData.subject}
+                                                onChange={handleInputChange}
+                                                placeholder="Project Inquiry"
+                                                className="w-full px-4 py-3 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Message */}
+                                    <div>
+                                        <label className="block text-sm font-semibold text-white mb-2">
+                                            Your Message <span className="text-red-500">*</span>
+                                        </label>
+                                        <textarea
+                                            name="message"
+                                            value={formData.message}
+                                            onChange={handleInputChange}
+                                            placeholder="Tell us about your project requirements..."
+                                            rows={6}
+                                            className="w-full px-4 py-3 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all resize-none"
+                                            required
+                                        />
+                                    </div>
+
+                                    {/* Status Message */}
+                                    {submitStatus !== 'idle' && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: -10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            className={`p-4 rounded-lg ${
+                                                submitStatus === 'success'
+                                                    ? 'bg-green-500/20 border border-green-500/50 text-green-400'
+                                                    : 'bg-red-500/20 border border-red-500/50 text-red-400'
+                                            }`}
+                                        >
+                                            <div className="flex items-start gap-3">
+                                                {submitStatus === 'success' ? (
+                                                    <FiCheckCircle className="text-xl flex-shrink-0 mt-0.5" />
+                                                ) : (
+                                                    <span className="text-xl flex-shrink-0">⚠️</span>
+                                                )}
+                                                <p className="text-sm">{statusMessage}</p>
+                                            </div>
+                                        </motion.div>
+                                    )}
+
+                                    {/* Submit Button */}
+                                    <button
+                                        type="submit"
+                                        disabled={isSubmitting}
+                                        className={`w-full py-4 rounded-lg font-bold text-lg transition-all flex items-center justify-center gap-3 ${
+                                            isSubmitting
+                                                ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                                                : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl'
+                                        }`}
+                                    >
+                                        {isSubmitting ? (
+                                            <>
+                                                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                                Sending...
+                                            </>
+                                        ) : (
+                                            <>
+                                                Send Message <FiSend />
+                                            </>
+                                        )}
+                                    </button>
+
+                                    <p className="text-xs text-gray-500 text-center">
+                                        By submitting this form, you agree to our Privacy Policy and Terms of Service
+                                    </p>
+                                </form>
+                            </div>
+                        </motion.div>
                     </div>
                 </div>
-            </div>
+            </section>
+
+            {/* Map Section (Optional) */}
+            <section className="py-12 px-4 bg-gray-900">
+                <div className="max-w-7xl mx-auto">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-center mb-8"
+                    >
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Find Us</h2>
+                        <p className="text-gray-400">Based in Surat, Gujarat - Serving clients nationwide</p>
+                    </motion.div>
+                    <motion.div
+                        initial={{opacity: 0, scale: 0.95}}
+                        whileInView={{opacity: 1, scale: 1}}
+                        viewport={{once: true}}
+                        className="rounded-2xl overflow-hidden border border-gray-800 h-96"
+                    >
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d426.3830654002307!2d72.82201183672346!3d21.20041684685114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e8a11a61c17%3A0x5cbba30c6722cf28!2sSodagerwad%2C%20Surat%2C%20Gujarat%20395003!5e0!3m2!1sen!2sin!4v1766646115400!5m2!1sen!2sin"
+                         height={"100%"} width={"100%"}
+                            style={{border:"0"}}
+                            allowFullScreen={true}
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"></iframe>
+                    </motion.div>
+                </div>
+            </section>
         </div>
     );
-}
+};
 
-export default ContactUsPage
+// ============ HERO SECTION ============
+const HeroSection = () => {
+    return (
+        <section
+            className="relative overflow-hidden bg-gradient-to-br from-gray-950 via-blue-950 to-purple-950 pt-32 pb-20 px-4">
+            <motion.div
+                initial={{opacity: 0, y: 30}}
+                animate={{opacity: 1, y: 0}}
+                transition={{duration: 0.8 }}
+                className="max-w-4xl mx-auto text-center"
+            >
+                <motion.h1
+                    className="text-5xl md:text-7xl font-bold mb-6 text-transparent bg-clip-text"
+                    style={{ backgroundImage: gradient }}
+                    initial={{ scale: 0.8 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.8 }}
+                >
+                    Get In Touch
+                </motion.h1>
+                <p className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto">
+                    Have a project in mind? Let's discuss how we can help bring your vision to life with production-grade software solutions.
+                </p>
+            </motion.div>
+
+            {/* Floating particles */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                {[...Array(20)].map((_, i) => (
+                    <motion.div
+                        key={i}
+                        className="absolute w-2 h-2 bg-blue-400 rounded-full opacity-20"
+                        style={{
+                            left: `${Math.random() * 100}%`,
+                            top: `${Math.random() * 100}%`,
+                        }}
+                        animate={{
+                            y: [0, -30, 0],
+                            opacity: [0.2, 0.5, 0.2],
+                        }}
+                        transition={{
+                            duration: 3 + Math.random() * 2,
+                            repeat: Infinity,
+                            delay: Math.random() * 2,
+                        }}
+                    />
+                ))}
+            </div>
+        </section>
+    );
+};
+
+// ============ CONTACT CARD COMPONENT ============
+const ContactCard = ({ icon, title, content, link, color }: any) => {
+    return (
+        <a
+            href={link}
+            target={link.startsWith('http') ? '_blank' : '_self'}
+            rel="noopener noreferrer"
+            className="block group"
+        >
+            <div className="flex items-center gap-4 p-5 bg-gray-900 rounded-xl border border-gray-800 hover:border-blue-500/50 transition-all group-hover:shadow-lg">
+                <div className={`w-12 h-12 bg-gradient-to-br ${color} rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                    <span className="text-white">{icon}</span>
+                </div>
+                <div>
+                    <div className="text-xs text-gray-500 mb-1">{title}</div>
+                    <div className="text-white font-semibold">{content}</div>
+                </div>
+            </div>
+        </a>
+    );
+};
+
+// ============ SOCIAL BUTTON COMPONENT ============
+const SocialButton = ({ icon, link, color }: any) => {
+    return (
+        <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`w-12 h-12 ${color} rounded-lg flex items-center justify-center text-white text-xl transition-all hover:scale-110 hover:shadow-lg`}
+        >
+            {icon}
+        </a>
+    );
+};
+
+export default ContactUsPage;

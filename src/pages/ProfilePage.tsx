@@ -74,12 +74,12 @@ const ProfilePage = () => {
                     <div className="container mx-auto py-8">
                         <Helmet>
                             <title>{user.name} | Tech Savvy</title>
-                            <meta property="og:url" content="https://tech-savvy-solution.web.app"/>
+                            <meta property="og:url" content="https://techsavvysolution.in"/>
                             <meta property="og:type" content="website"/>
                             <meta property="og:title" content="Profile | Tech Savvy"/>
                             <meta property="og:description"
                                   content="At Tech-Savvy Solution, we specialize in delivering top-notch IT services tailored to your unique business requirements. From web and mobile app development to robust backend solutions and dynamic API integration, we cover all aspects of software development. Our expertise spans full-stack development, cross-platform mobile applications, and comprehensive DevOps practices. We pride ourselves on providing innovative, scalable, and efficient solutions that help your business thrive in a digital world. Let's build the future together."/>
-                            <meta property="og:image" content="https://tech-savvy-solution.web.app/assets/preview_image.png"/>
+                            <meta property="og:image" content="https://techsavvysolution.in/assets/preview_image.png"/>
                         </Helmet>
                         <div className="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4 mt-6">
                             <div className="col-span-4 sm:col-span-3">
@@ -104,7 +104,7 @@ const ProfilePage = () => {
                                                     state.user && (
                                                      state.user.email == "patelsakib95@gmail.com" && (
                                                          <button
-                                                             onClick={()=>window.location.href="https://tech-savvy-solution.web.app/admin"}
+                                                             onClick={()=>window.location.href="https://techsavvysolution.in/admin"}
                                                              className="flex flex-row drop-shadow-lg bg-gradient-to-r from-green-500 to-yellow-500 px-4 py-2 rounded-xl hover:bg-black"
                                                          >
                                                              <span className="text-sm">Admin</span>

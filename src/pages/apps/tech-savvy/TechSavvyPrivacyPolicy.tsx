@@ -70,8 +70,8 @@ const TechSavvyPrivacyPolicy = () => {
             </li>
             <li>
                 <p><strong>Website</strong> refers to Tech Savvy Solution, accessible from <a
-                    href="https://tech-savvy-solution.web.app" rel="external nofollow noopener"
-                    target="_blank">https://tech-savvy-solution.web.app</a></p>
+                    href="https://techsavvysolution.in" rel="external nofollow noopener"
+                    target="_blank">https://techsavvysolution.in</a></p>
             </li>
             <li>
                 <p><strong>You</strong> means the individual accessing or using the Service, or the company, or other
@@ -286,9 +286,9 @@ const TechSavvyPrivacyPolicy = () => {
         <h2>Contact Us</h2>
         <p>If you have any questions about this Privacy Policy, You can contact us:</p>
         <ul>
-            <li>By visiting this page on our website: <a href="https://tech-savvy-solution.web.app/contactus"
+            <li>By visiting this page on our website: <a href="https://techsavvysolution.in/contactus"
                                                          rel="external nofollow noopener"
-                                                         target="_blank">https://tech-savvy-solution.web.app/contactus</a>
+                                                         target="_blank">https://techsavvysolution.in/contactus</a>
             </li>
         </ul>
     </div>

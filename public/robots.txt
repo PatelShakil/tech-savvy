@@ -1,0 +1,37 @@
+# Tech Savvy Solution - Robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://techsavvysolution.in/sitemap.xml
+
+# Disallow admin and private pages
+Disallow: /admin/
+Disallow: /student/dashboard/
+Disallow: /api/
+
+# Allow public pages
+Allow: /
+Allow: /about
+Allow: /services
+Allow: /programs
+Allow: /projects
+Allow: /contactus
+Allow: /student/login
+Allow: /student/signup
+Allow: /privacy-policy
+Allow: /terms-of-service
+Allow: /refund-policy
+Allow: /sitemap
+
+# Crawl-delay for better server performance
+Crawl-delay: 1
+
+# Specific rules for search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1

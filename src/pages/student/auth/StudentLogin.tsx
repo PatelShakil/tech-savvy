@@ -26,7 +26,7 @@ const StudentLogin: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-600 to-purple-600 px-4">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-950 to-gray-950 px-4">
             <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8">
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
