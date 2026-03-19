@@ -48,6 +48,7 @@ import TermsOfServicePage from "./pages/utility/TermsOfServicePage.tsx";
 import SitemapPage from "./pages/utility/SitemapPage.tsx";
 import RefundPolicyPage from "./pages/utility/RefundPolicyPage.tsx";
 import SitemapXML from "./pages/SitemapXML.tsx";
+import CertificateVerificationPage from "./pages/CertificateVerificationPage.tsx";
 import ScrollToTop from "./components/ScrollToTop.tsx";
 // import ProgramDetails from "./pages/admin/programs/ProgramDetails.tsx";
 // import AdminApplications from "./pages/admin/programs/AdminApplications.tsx";
@@ -75,6 +76,7 @@ function App() {
                     <Route path="/programs/apply/:programId" element={<ProgramApplicationForm/>}/>
                     <Route path="/programs" element={<ProgramsPage />} />
                     <Route path="/sitemap.xml" element={<SitemapXML />} />
+                    <Route path="/certificate/scan/:cid" element={<CertificateVerificationPage />} />
                     <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
                     <Route path="/terms-of-service" element={<TermsOfServicePage />} />
                     <Route path="/sitemap" element={<SitemapPage />} />
@@ -142,7 +144,7 @@ const ConditionalFooter = () => {
     const location = useLocation();
 
     // Updated to hide footer on all admin pages
-    const hiddenFooterPaths = ['/profile', '/admin', '/apps/bytebuddy','/student'];
+    const hiddenFooterPaths = ['/profile', '/admin', '/apps/bytebuddy','/student', '/certificate'];
 
     // Check if current path starts with any hidden path
     const isFooterPageVisible = !hiddenFooterPaths.some(path =>

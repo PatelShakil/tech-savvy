@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../../firebase';
+import { db } from '../../firebase';
 import { XMarkIcon, CloudArrowUpIcon } from '@heroicons/react/24/outline';
+import { uploadFileToCdn } from '../../utils/CdnUploadService';
 
 interface UploadDocumentModalProps {
     programId: string;
@@ -42,40 +42,26 @@ const UploadDocumentModal: React.FC<UploadDocumentModalProps> = ({
         try {
             const studentsToUpload = bulkUpload ? students : students.filter(s => s.id === selectedStudent);
 
-            for (const student of studentsToUpload) {
-                const documentId = `${programId}_${student.id}_${documentType}_${Date.now()}`;
-                const storageRef = ref(storage, `documents/${programId}/${documentId}`);
+            for (let i = 0; i < studentsToUpload.length; i++) {
+                const student = studentsToUpload[i];
 
-                const uploadTask = uploadBytesResumable(storageRef, file);
+                // Upload to TechSavvy CDN with progress tracking
+                const downloadUrl = await uploadFileToCdn(file, (percent) => {
+                    // If bulk: show per-file progress offset
+                    const base = (i / studentsToUpload.length) * 100;
+                    const portion = percent / studentsToUpload.length;
+                    setUploadProgress(base + portion);
+                });
 
-                await new Promise((resolve, reject) => {
-                    uploadTask.on(
-                        'state_changed',
-                        (snapshot) => {
-                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                            setUploadProgress(progress);
-                        },
-                        (error) => reject(error),
-                        async () => {
-                            try {
-                                const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
-
-                                await addDoc(collection(db, 'documents'), {
-                                    programId: programId,
-                                    studentId: student.id,
-                                    studentName: student.name,
-                                    type: documentType,
-                                    title: bulkUpload ? `${title} - ${student.name}` : title,
-                                    downloadUrl: downloadUrl,
-                                    createdAt: serverTimestamp()
-                                });
-
-                                resolve(true);
-                            } catch (error) {
-                                reject(error);
-                            }
-                        }
-                    );
+                // Save document record to Firestore
+                await addDoc(collection(db, 'documents'), {
+                    programId: programId,
+                    studentId: student.id,
+                    studentName: student.name,
+                    type: documentType,
+                    title: bulkUpload ? `${title} - ${student.name}` : title,
+                    downloadUrl: downloadUrl,
+                    createdAt: serverTimestamp()
                 });
             }
 
